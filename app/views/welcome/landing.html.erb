@@ -1,0 +1,17 @@
+<h1>Welcome#landing/<%= @user.id %></h1>
+<p>Find me in app/views/welcome/landing.html.erb</p>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th></th>
+  </tr>
+
+  <% @rooms.each do |room| %>
+    <tr>
+      <td><%= room.name %></td>
+      <td><%= room.description %></td>
+      <td><%= link_to 'Show', room_path(room) %></td>
+    </tr>
+  <% end %>
+</table>
