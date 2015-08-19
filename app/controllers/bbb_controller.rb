@@ -30,7 +30,7 @@ class BbbController < ApplicationController
       end
 
       #Get the join url
-      if current_user.id == room.user_id?
+      if current_user.id == room.user_id
          password = meeting_info[:moderatorPW]
          user_name = 'Moderator'
       else
@@ -42,6 +42,7 @@ class BbbController < ApplicationController
       #Execute the redirect
       redirect_to join_url
 
+      #render plain: current_user.inspect + '*************************' + room.inspect
     end
   end
 end
