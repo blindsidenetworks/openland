@@ -1,4 +1,6 @@
 class RoomsController < ApplicationController
+  include BbbHelper
+
   #before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :authenticate_user!, :except => [:show]
 
@@ -9,6 +11,11 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id])
+    if user_signed_in?
+      @join_url = root_path+'bbb/join/'+@room.id.to_s
+    else
+      @join_url = nil
+    end
   end
 
   def new
