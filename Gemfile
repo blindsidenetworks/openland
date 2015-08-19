@@ -44,3 +44,4 @@ group :development, :test do
 end
 
 gem 'devise'
+gem 'bigbluebutton-api-ruby', '1.4.0'
