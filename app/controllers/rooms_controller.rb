@@ -2,7 +2,8 @@ class RoomsController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
 
   def index
-    @rooms = Room.all
+    #@rooms = Room.all
+    @rooms = Room.where(:user_id => current_user.id)
   end
 
   def show
@@ -16,7 +17,9 @@ class RoomsController < ApplicationController
   def create
     #render plain: room_params.inspect
     #@room = Room.new(params.require(:room).permit(:name, :description))
-    @room = Room.new(room_params)
+    @room = Room.new(room_params) do |r|
+      r.user_id = current_user.id
+    end
 
     if @room.save
       redirect_to @room
@@ -48,7 +51,7 @@ class RoomsController < ApplicationController
 
   private
     def room_params
-        params.require(:room).permit(:name, :description)
+        params.require(:room).permit(:name, :description, :user_id)
     end
 
 end
