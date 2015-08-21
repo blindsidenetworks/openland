@@ -10,11 +10,11 @@
 
             <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
               <fieldset>
-                <div class="form-group">
+                <div class="form-group fields">
                   <%= f.text_field :login, autofocus: true, :class => "form-control", :placeholder => "Username or Email" %>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group fields">
                   <%= f.password_field :password, autocomplete: "off", :class => "form-control", :placeholder => "Password" %>
                 </div>
 

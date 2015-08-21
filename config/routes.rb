@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :users
+
   get 'rooms/index'
 
   get 'rooms/show'
@@ -12,8 +14,6 @@ Rails.application.routes.draw do
   get 'rooms/update'
 
   get 'rooms/delete'
-
-  devise_for :users
 
   resources :rooms
 
