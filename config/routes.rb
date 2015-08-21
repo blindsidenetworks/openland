@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   resources :rooms
 
   get 'welcome/index'
+  get 'welcome/about'
+  get 'welcome/contact'
   get ':id', to: 'welcome#landing'
 
   get 'bbb/join/:id', to: 'bbb#join'

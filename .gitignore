@@ -11,5 +11,6 @@
 /log/*
 !/log/.keep
 /tmp
+/public
 .loadpath
 .project

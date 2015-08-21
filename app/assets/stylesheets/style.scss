@@ -1,0 +1,54 @@
+// Google Fonts
+@import url("//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&lang=en");
+
+// Custom Fonts for 'Clean Blog'
+@import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
+@import url("http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic");
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800");
+
+// Bootstra
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "bootstrap-social.css";
+
+
+// Custom awesome fonts
+.fa-digitalocean:before {
+  content: "\f0c2";
+}
+.fa-digitalocean-square:before {
+  content: "\f0c2";
+}
+.btn-digitalocean{color:#fff;background-color:#3b5998;border-color:rgba(0,0,0,0.2)}.btn-digitalocean:hover,.btn-digitalocean:focus,.btn-digitalocean:active,.btn-digitalocean.active,.open>.dropdown-toggle.btn-digitalocean{color:#fff;background-color:#2d4373;border-color:rgba(0,0,0,0.2)}
+.btn-digitalocean:active,.btn-digitalocean.active,.open>.dropdown-toggle.btn-digitalocean{background-image:none}
+.btn-digitalocean.disabled,.btn-digitalocean[disabled],fieldset[disabled] .btn-digitalocean,.btn-digitalocean.disabled:hover,.btn-digitalocean[disabled]:hover,fieldset[disabled] .btn-digitalocean:hover,.btn-digitalocean.disabled:focus,.btn-digitalocean[disabled]:focus,fieldset[disabled] .btn-digitalocean:focus,.btn-digitalocean.disabled:active,.btn-digitalocean[disabled]:active,fieldset[disabled] .btn-digitalocean:active,.btn-digitalocean.disabled.active,.btn-digitalocean[disabled].active,fieldset[disabled] .btn-digitalocean.active{background-color:#3b5998;border-color:rgba(0,0,0,0.2)}
+.btn-digitalocean .badge{color:#3b5998;background-color:#fff}
+
+ // Custom flash
+.alert-error {
+    background-color: #f2dede;
+    border-color: #eed3d7;
+    color: #b94a48;
+    text-align: left;
+ }
+
+.alert-alert {
+    background-color: #f2dede;
+    border-color: #eed3d7;
+    color: #b94a48;
+    text-align: left;
+ }
+
+.alert-success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #468847;
+    text-align: left;
+ }
+
+.alert-notice {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #468847;
+    text-align: left;
+ }
