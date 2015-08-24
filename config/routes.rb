@@ -1,29 +1,23 @@
 Rails.application.routes.draw do
-  get 'dashboard/index'
-  #get 'dashboard/', to 'dashboard#index'
-
   devise_for :users
-
-  get 'rooms/index'
-
-  get 'rooms/show'
-
-  get 'rooms/new'
-
-  get 'rooms/create'
-
-  get 'rooms/edit'
-
-  get 'rooms/update'
-
-  get 'rooms/delete'
-
-  resources :rooms
 
   get 'welcome/index'
   get 'welcome/about'
   get 'welcome/contact'
   get ':id', to: 'welcome#landing'
+
+  get "dashboard", to: 'dashboard#index'
+  get 'dashboard/index'
+
+  get 'rooms/index'
+  get 'rooms/show'
+  get 'rooms/new'
+  get 'rooms/create'
+  get 'rooms/edit'
+  get 'rooms/update'
+  get 'rooms/delete'
+
+  resources :rooms
 
   get 'bbb/join/:id', to: 'bbb#join'
 

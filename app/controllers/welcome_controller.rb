@@ -5,6 +5,10 @@ class WelcomeController < ApplicationController
   end
 
   def landing
+    if params[:id] == 'dashboard' || params[:id] == 'rooms'
+      redirect_to '/' + params[:id] + '/index'
+    else
+
     begin
       if is_number?(params[:id])
          @user = User.find_by!(id: params[:id])
@@ -19,6 +23,8 @@ class WelcomeController < ApplicationController
       raise ActionController::RoutingError.new('Landing page not Found')
       #render :file => 'public/404.html', :status => :not_found, :layout => false
     end
+    end
+
   end
 
   def about
