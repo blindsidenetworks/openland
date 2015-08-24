@@ -3,8 +3,6 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
-gem 'bootstrap-sass', '3.3.0.0'
-gem "font-awesome-rails"
 
 # Use mysql as the database for Active Record
 gem 'mysql2'
@@ -58,7 +56,11 @@ end
 
 gem 'devise'
 gem 'bigbluebutton-api-ruby', '1.4.0'
+
+gem 'bootstrap-sass', '3.3.0.0'
+gem 'bootstrap-social-rails', '~> 4.8.0'
+gem "font-awesome-rails"
+
 gem 'omniauth'
 gem 'omniauth-digitalocean'
 gem 'omniauth-twitter'
-gem 'bootstrap-social-rails', '~> 4.8.0'
