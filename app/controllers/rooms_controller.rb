@@ -27,6 +27,7 @@ class RoomsController < ApplicationController
     #@room = Room.new(params.require(:room).permit(:name, :description))
     @room = Room.new(room_params) do |r|
       r.user_id = current_user.id
+      r.recording = false
     end
 
     if @room.save
@@ -59,7 +60,7 @@ class RoomsController < ApplicationController
 
   private
     def room_params
-        params.require(:room).permit(:name, :description, :user_id)
+        params.require(:room).permit(:name, :description, :user_id, :recording)
     end
 
 end
