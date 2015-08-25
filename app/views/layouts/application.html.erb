@@ -48,7 +48,6 @@
           <ul class="dropdown-menu dropdown-user">
             <li>
               <%= link_to edit_user_registration_path, method: :get do %><i class="fa fa-user fa-fw"></i> Profile<% end %>
-              <a href="/profile"><i class="fa fa-user fa-fw"></i> Profile</a>
             </li>
             <li><a href="/settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
             </li>
@@ -119,7 +118,7 @@
     <div id="page-wrapper">
       <div class="row">
         <div class="col-lg-12">
-          <h1 class="page-header"><%= params[:controller].capitalize %></h1>
+          <h1 class="page-header"><%= t('dashboard.'+params[:controller]) %></h1>
         </div>
         <!-- /.col-lg-12 -->
       </div>
