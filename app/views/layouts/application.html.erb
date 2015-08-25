@@ -36,7 +36,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">OpenLand</a>
+        <%= link_to "OpenLand", root_path, :class => "navbar-brand" %>
       </div>
       <!-- /.navbar-header -->
 
@@ -46,9 +46,11 @@
             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
           </a>
           <ul class="dropdown-menu dropdown-user">
-            <li><a href="/dashboard/profile"><i class="fa fa-user fa-fw"></i> User Profile</a>
+            <li>
+              <%= link_to edit_user_registration_path, method: :get do %><i class="fa fa-user fa-fw"></i> Profile<% end %>
+              <a href="/profile"><i class="fa fa-user fa-fw"></i> Profile</a>
             </li>
-            <li><a href="/dashboard/settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
+            <li><a href="/settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
             </li>
             <li class="divider"></li>
             <li>

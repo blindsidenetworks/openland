@@ -1,0 +1,24 @@
+<header class="intro-header">
+    <div class="container">&nbsp;</div>
+  </header>
+
+  <div class="panel-body">
+
+  <% if @room != nil %>
+    <% if !user_signed_in? %>
+    <div class="alert alert-info alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>Heads up!</strong> You need to sign in in order to join this room.
+    </div>
+    <% end %>
+
+    <div>
+      <h1><%= @room[:name] %></h1>
+      <h3><%= @room[:description] %></h3>
+    </div>
+    <% if user_signed_in? %>
+    <%= link_to 'Join', @join_url, class: "btn btn-default" %>
+    <% end %>
+  <% end %>
+
+  </div>

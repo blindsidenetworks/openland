@@ -1,17 +1,36 @@
-<h1>Welcome#landing/<%= @user.username %></h1>
-<p>Find me in app/views/welcome/landing.html.erb</p>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th></th>
-  </tr>
-
-  <% @rooms.each do |room| %>
-    <tr>
-      <td><%= room.name %></td>
-      <td><%= room.description %></td>
-      <td><%= link_to 'Show', room_path(room) %></td>
-    </tr>
-  <% end %>
-</table>
+<div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Available rooms
+          </div>
+          <!-- /.panel-heading -->
+            <div class="panel-body">
+              <div class="table-responsive table-bordered">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Room Name</th>
+                      <th>Description</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <% @rooms.each do |room| %>
+                    <tr>
+                      <td></td>
+                      <td><%= room.name %></td>
+                      <td><%= room.description %></td>
+                      <td><%= link_to 'Show', '/landing/'+room.id.to_s %></td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.table-responsive -->
+            </div>
+          <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+      </div>
+      <!-- /.col-lg-12 -->

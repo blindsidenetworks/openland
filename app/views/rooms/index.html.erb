@@ -1,32 +1,43 @@
-<p class="navbar-text pull-right">
-  <%= link_to "Home", root_path %>
-  <% if user_signed_in? %>
-    Logged in as <strong><%= current_user.username %></strong>.
-    <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
-    <%= link_to "Logout", destroy_user_session_path, method: :get, :class => 'navbar-link'  %>
-  <% else %>
-    <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
-    <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
-  <% end %>
-</p>
-
-<%= link_to 'New room', new_room_path %>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th colspan="3"></th>
-  </tr>
-
-  <% @rooms.each do |room| %>
-    <tr>
-      <td><%= room.name %></td>
-      <td><%= room.description %></td>
-      <td><%= link_to 'Show', room_path(room) %></td>
-      <td><%= link_to 'Edit', edit_room_path(room) %></td>
-      <td><%= link_to 'Destroy', room_path(room),
-              method: :delete,
-              data: { confirm: 'Are you sure?' } %></td>
-    </tr>
-  <% end %>
-</table>
+<div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Available rooms
+          </div>
+          <!-- /.panel-heading -->
+            <div class="panel-body">
+              <%= link_to 'New room', new_room_path, class: "btn" %>
+              <div class="table-responsive table-bordered">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Room Name</th>
+                      <th>Description</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <% @rooms.each do |room| %>
+                    <tr>
+                      <td></td>
+                      <td><%= room.name %></td>
+                      <td><%= room.description %></td>
+                      <td>
+                        <%= link_to 'Show', room_path(room) %> |
+                        <%= link_to 'Edit', edit_room_path(room) %> |
+                        <%= link_to 'Destroy', room_path(room),
+                            method: :delete,
+                            data: { confirm: 'Are you sure?' } %>
+                      </td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.table-responsive -->
+            </div>
+          <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+      </div>
+      <!-- /.col-lg-12 -->

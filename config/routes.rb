@@ -4,10 +4,14 @@ Rails.application.routes.draw do
   get 'welcome/index'
   get 'welcome/about'
   get 'welcome/contact'
-  get ':id', to: 'welcome#landing'
+  get 'welcome/landing'
 
   get "dashboard", to: 'dashboard#index'
   get 'dashboard/index'
+
+  get 'settings/index'
+
+  get 'profile/index'
 
   get 'rooms/index'
   get 'rooms/show'
@@ -20,6 +24,9 @@ Rails.application.routes.draw do
   resources :rooms
 
   get 'bbb/join/:id', to: 'bbb#join'
+
+  get ':landing_id', to: 'welcome#landing'
+  get ':landing_id/:room_id', to: 'welcome#landing'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
