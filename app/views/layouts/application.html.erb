@@ -47,6 +47,13 @@
           </a>
           <ul class="dropdown-menu dropdown-user">
             <li>
+              <span class="clear">
+                <i class="fa fa-user fa-2x"></i>&nbsp;
+                <strong class="font-bold"><%= current_user.username %></strong>
+              </span>
+            </li>
+            <li class="divider"></li>
+            <li>
               <%= link_to edit_user_registration_path, method: :get do %><i class="fa fa-user fa-fw"></i> Profile<% end %>
             </li>
             <li><a href="/settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
