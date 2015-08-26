@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :rooms
 
   get 'bbb/join/:id', to: 'bbb#join'
+  get 'bbb/close'
 
   get ':landing_id', to: 'welcome#landing'
   get ':landing_id/:room_id', to: 'welcome#landing'

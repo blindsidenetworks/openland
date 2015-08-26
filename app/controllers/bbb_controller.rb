@@ -22,7 +22,10 @@ class BbbController < ApplicationController
       rescue BigBlueButton::BigBlueButtonException => exc
         logger.info "Message for the log file #{exc.key}: #{exc.message}"
         #This means that is not created, so create the meeting
-        meeting_options = {:record => room.recording.to_s, :logoutURL => request.protocol+request.host+(request.port!=80? ':'+request.port.to_s: '')+'/landing/'+room.id.to_s}
+        base_url = request.protocol+request.host+(request.port!=80? ':'+request.port.to_s: '')
+        #logout_url = base_url+'/landing/'+room.id.to_s #Redirects to public page for the room
+        logout_url = base_url+'/bbb/close'              #Closes the window after correct logout
+        meeting_options = {:record => room.recording.to_s, :logoutURL => logout_url}
         logger.info meeting_options.inspect
         bbb.create_meeting(room.name, meeting_id, meeting_options)
 
@@ -45,5 +48,8 @@ class BbbController < ApplicationController
 
       #render plain: current_user.inspect + '*************************' + room.inspect
     end
+  end
+
+  def close
   end
 end
