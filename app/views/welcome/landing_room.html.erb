@@ -17,7 +17,7 @@
       <h3><%= @room[:description] %></h3>
     </div>
     <% if user_signed_in? %>
-    <%= link_to 'Join', @join_url, class: "btn btn-default" %>
+    <%= link_to 'Join', @join_url, class: "btn btn-default", :target => "_blank" %>
     <% end %>
   <% end %>
 

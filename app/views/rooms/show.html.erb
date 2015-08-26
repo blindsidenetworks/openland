@@ -3,7 +3,7 @@
   <h3><%= @room[:description] %></h3>
   </div>
   <% if user_signed_in? %>
-    <%= link_to 'Join', @join_url, class: "btn btn-primary" %>
+    <%= link_to 'Join', @join_url, class: "btn btn-primary", :target => "_blank" %>
   <% end %>
   &nbsp;<%= link_to 'Back', rooms_path, class: "btn btn-default" %>
   </div>
