@@ -21,7 +21,6 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
-
 </head>
 <body>
 
@@ -123,6 +122,8 @@
     </nav>
 
     <div id="page-wrapper">
+<%= render 'layouts/messages' %>
+
       <div class="row">
         <div class="col-lg-12">
           <h1 class="page-header"><%= t('dashboard.'+params[:controller]) %></h1>
@@ -131,13 +132,7 @@
       </div>
       <!-- /.row -->
 
-      <div class="row">
-        <p class="notice"><%= notice %></p>
-        <p class="alert"><%= alert %></p>
-      </div>
-      <!-- /.row -->
-
-      <%= yield %>
+<%= yield %>
 
     </div>
     <!-- /#page-wrapper -->
@@ -145,7 +140,6 @@
 
   </div>
   <!-- /#wrapper -->
-
 
 </body>
 </html>
