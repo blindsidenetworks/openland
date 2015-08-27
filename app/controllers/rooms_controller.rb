@@ -7,11 +7,12 @@ class RoomsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    #if user.has_role? :admin
-    #  @rooms = Room.all
-    #else
-    #end
-    @rooms = Room.where(:user_id => current_user.id)
+    @user = current_user
+    if @user.has_role? :admin
+      @rooms = Room.all
+    else
+      @rooms = Room.where(:user_id => @user.id)
+    end
   end
 
   def show

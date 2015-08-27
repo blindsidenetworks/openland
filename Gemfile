@@ -56,6 +56,7 @@ end
 
 gem 'devise'
 gem 'cancan'
+gem 'role_model'
 
 gem 'bigbluebutton-api-ruby', '1.4.0'
 

@@ -11,6 +11,9 @@
                   <thead>
                     <tr>
                       <th>#</th>
+                      <% if @user.has_role? :admin %>
+                      <th>Owner</th>
+                      <% end %>
                       <th>Room Name</th>
                       <th>Description</th>
                       <th>Actions</th>
@@ -20,6 +23,9 @@
                   <% @rooms.each do |room| %>
                     <tr>
                       <td></td>
+                      <% if @user.has_role? :admin %>
+                      <th><%= get_username room.user_id %></th>
+                      <% end %>
                       <td><%= room.name %></td>
                       <td><%= room.description %></td>
                       <td>

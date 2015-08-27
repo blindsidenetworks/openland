@@ -152,6 +152,7 @@ GEM
     ref (2.0.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
+    role_model (0.8.2)
     sass (3.4.16)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
@@ -211,6 +212,7 @@ DEPENDENCIES
   omniauth-digitalocean
   omniauth-twitter
   rails (= 4.2.1)
+  role_model
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring
