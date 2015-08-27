@@ -36,11 +36,12 @@ class BbbController < ApplicationController
       #Get the join url
       if current_user.id == room.user_id
          password = meeting_info[:moderatorPW]
-         user_name = 'Moderator'
+         #user_name = 'Moderator'
       else
          password = meeting_info[:attendeePW]
-         user_name = 'Viewer'
+         #user_name = 'Viewer'
       end
+      user_name = current_user.username
       join_url = bbb.join_meeting_url(meeting_id, user_name, password)
 
       #Execute the redirect
