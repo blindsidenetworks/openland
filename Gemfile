@@ -55,6 +55,8 @@ group :development, :test do
 end
 
 gem 'devise'
+gem 'cancan'
+
 gem 'bigbluebutton-api-ruby', '1.4.0'
 
 gem 'bootstrap-sass', '3.3.0.0'

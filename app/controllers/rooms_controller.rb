@@ -2,10 +2,15 @@ class RoomsController < ApplicationController
   include BbbHelper
 
   #before_filter :authenticate_user!, :except => [:index, :show]
-  before_filter :authenticate_user!, :except => [:show]
+  before_filter :authenticate_user!
+
+  load_and_authorize_resource
 
   def index
-    #@rooms = Room.all
+    #if user.has_role? :admin
+    #  @rooms = Room.all
+    #else
+    #end
     @rooms = Room.where(:user_id => current_user.id)
   end
 
@@ -23,7 +28,6 @@ class RoomsController < ApplicationController
   end
 
   def create
-    #render plain: room_params.inspect
     #@room = Room.new(params.require(:room).permit(:name, :description))
     @room = Room.new(room_params) do |r|
       r.user_id = current_user.id

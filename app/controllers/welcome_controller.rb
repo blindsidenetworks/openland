@@ -10,16 +10,22 @@ class WelcomeController < ApplicationController
       redirect_to '/' + params[:landing_id] + '/index'
     else if params[:landing_id] == 'landing'
       if is_number?(params[:room_id])
-        @room = Room.find(params[:room_id])
-        if user_signed_in?
-          @join_url = root_path+'bbb/join/'+@room.id.to_s
+        @room = Room.find_by_id params[:room_id]
+        if @room == nil
+          redirect_to root_url, :alert => 'The room number could not be found'
+
         else
-          @join_url = nil
+          if user_signed_in?
+            @join_url = root_path+'bbb/join/'+@room.id.to_s
+          else
+            @join_url = nil
+          end
+          render 'landing_room'
+
         end
       else
-        @room = nil
+        redirect_to root_url
       end
-      render 'landing_room'
     else
       begin
         if is_number?(params[:landing_id])
