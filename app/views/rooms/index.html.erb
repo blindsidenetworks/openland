@@ -24,7 +24,9 @@
                     <tr>
                       <td></td>
                       <% if @user.has_role? :admin %>
-                      <th><%= get_username room.user_id %></th>
+                      <th>
+                        <%= link_to room.owner.to_s, "/"+room.owner.username %>
+                      </th>
                       <% end %>
                       <td><%= room.name %></td>
                       <td><%= room.description %></td>

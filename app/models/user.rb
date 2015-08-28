@@ -64,4 +64,8 @@ class User < ActiveRecord::Base
     fullname += (self.last_name != nil && self.last_name.strip != '')? ((fullname != '')? ' ': '')+self.last_name: ''
     fullname
   end
+
+  def to_s
+    (self.fullname != '')? self.fullname: self.username
+  end
 end
