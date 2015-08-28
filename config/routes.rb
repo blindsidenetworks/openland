@@ -11,8 +11,6 @@ Rails.application.routes.draw do
 
   get 'settings/index'
 
-  get 'profile/index'
-
   get 'rooms/index'
   get 'rooms/show'
   get 'rooms/new'
