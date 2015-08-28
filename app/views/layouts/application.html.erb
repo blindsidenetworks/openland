@@ -48,7 +48,7 @@
             <li>
               <span class="clear">
                 <i class="fa fa-user fa-2x"></i>&nbsp;
-                <strong class="font-bold"><%= current_user.username %></strong>
+                <strong class="font-bold"><%= (current_user.fullname != '')? current_user.fullname: current_user.username %></strong>
               </span>
             </li>
             <li class="divider"></li>

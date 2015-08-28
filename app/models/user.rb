@@ -58,4 +58,10 @@ class User < ActiveRecord::Base
       where(conditions.to_hash).first
     end
   end
+
+  def fullname
+    fullname = (self.first_name != nil && self.first_name.strip != '')? self.first_name: ''
+    fullname += (self.last_name != nil && self.last_name.strip != '')? ((fullname != '')? ' ': '')+self.last_name: ''
+    fullname
+  end
 end

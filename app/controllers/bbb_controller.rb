@@ -41,13 +41,13 @@ class BbbController < ApplicationController
          password = meeting_info[:attendeePW]
          #user_name = 'Viewer'
       end
-      user_name = current_user.username
+      user_name = (current_user.fullname == '')? current_user.username: current_user.fullname
+
       join_url = bbb.join_meeting_url(meeting_id, user_name, password)
 
       #Execute the redirect
       redirect_to join_url
 
-      #render plain: current_user.inspect + '*************************' + room.inspect
     end
   end
 
