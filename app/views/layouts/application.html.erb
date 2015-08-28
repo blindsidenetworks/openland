@@ -110,6 +110,11 @@
             <li>
               <a href="/dashboard/index"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
+            <% if current_user.has_role? :admin %>
+            <li>
+              <a href="/users/"><i class="fa fa-users fa-fw"></i> Users</a>
+            </li>
+            <% end %>
             <li>
               <a href="/rooms/"><i class="fa fa-table fa-fw"></i> Rooms</a>
             </li>
