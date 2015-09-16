@@ -14,14 +14,6 @@ Rails.application.routes.draw do
 
   get 'settings/index'
 
-  get 'rooms/index'
-  get 'rooms/show'
-  get 'rooms/new'
-  get 'rooms/create'
-  get 'rooms/edit'
-  get 'rooms/update'
-  get 'rooms/delete'
-
   resources :rooms
 
   get 'bbb/join/:id', to: 'bbb#join'
