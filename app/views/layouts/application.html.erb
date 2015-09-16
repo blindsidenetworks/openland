@@ -108,15 +108,21 @@
         <div class="sidebar-nav navbar-collapse">
           <ul class="nav" id="side-menu">
             <li>
-              <a href="/dashboard/index"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+              <%= link_to dashboard_index_path, method: :get do %>
+                <i class="fa fa-dashboard fa-fw"></i> Dashboard
+              <% end %>
             </li>
             <% if current_user.has_role? :admin %>
             <li>
-              <a href="/users/"><i class="fa fa-users fa-fw"></i> Users</a>
+              <%= link_to users_path, method: :get do %>
+                <i class="fa fa-users fa-fw"></i> Users
+              <% end %>
             </li>
             <% end %>
             <li>
-              <a href="/rooms/"><i class="fa fa-table fa-fw"></i> Rooms</a>
+              <%= link_to rooms_index_path, method: :get do %>
+                <i class="fa fa-table fa-fw"></i> Rooms
+              <% end %>
             </li>
           </ul>
         </div>
