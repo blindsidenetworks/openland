@@ -1,14 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
-  get 'users/index'
-  get 'users/new'
-  get 'users/create'
-  get 'users/update'
-  #get 'users/edit'
-  get 'users/destroy'
-  get 'users/show'
-
-  resources :users
+  scope "/admin" do
+    resources :users
+  end
 
   get 'welcome/index'
   get 'about', to: 'welcome#about'
