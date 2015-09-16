@@ -5,7 +5,7 @@
           </div>
           <!-- /.panel-heading -->
             <div class="panel-body">
-              <%= link_to 'Add user', new_room_path, class: "btn" %>
+              <%= link_to 'Add user', new_user_path, class: "btn" %>
               <div class="table-responsive table-bordered">
                 <table class="table">
                   <thead>
@@ -28,9 +28,9 @@
                       <td><%= user.last_name %></td>
                       <td><%= user.email %></td>
                       <td>
-                        <%= link_to 'Show', '#' %> |
-                        <%= link_to 'Edit', '#' %> |
-                        <%= link_to 'Destroy', '#',
+                        <%= link_to 'Show', user_path(user) %> |
+                        <%= link_to 'Edit', edit_user_path(user) %> |
+                        <%= link_to 'Destroy', user_path(user),
                             method: :delete,
                             data: { confirm: 'Are you sure?' } %>
                       </td>

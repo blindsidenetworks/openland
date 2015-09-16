@@ -46,6 +46,7 @@
           </a>
           <ul class="dropdown-menu dropdown-user">
             <li>
+              &nbsp;&nbsp;
               <span class="clear">
                 <i class="fa fa-user fa-2x"></i>&nbsp;
                 <strong class="font-bold"><%= current_user.to_s %></strong>
@@ -53,9 +54,12 @@
             </li>
             <li class="divider"></li>
             <li>
-              <%= link_to edit_user_registration_path, method: :get do %><i class="fa fa-user fa-fw"></i> Profile<% end %>
+              <%= link_to edit_user_registration_path, method: :get do %>
+                <i class="fa fa-user fa-fw"></i> Profile
+              <% end %>
             </li>
-            <li><a href="/settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
+            <li>
+              <a href="/settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
             </li>
             <li class="divider"></li>
             <li>

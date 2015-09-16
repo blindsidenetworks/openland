@@ -1,0 +1,57 @@
+<%= form_for @user do |f| %>
+
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@user.errors.count, "error") %> prohibited
+        this user from being saved:
+      </h2>
+      <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <div class="form-group input-group col-lg-4 field">
+      <%= f.label :username %><br />
+      <%= f.text_field :username, autofocus: true, :class => "form-control" %>
+    </div>
+
+    <div class="form-group input-group col-lg-4 field">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, :class => "form-control" %>
+    </div>
+
+    <div class="form-group input-group col-lg-4 field">
+      <%= f.label :first_name %><br />
+      <%= f.text_field :first_name, :class => "form-control" %>
+    </div>
+
+    <div class="form-group input-group col-lg-4 field">
+      <%= f.label :last_name %><br />
+      <%= f.text_field :last_name, :class => "form-control" %>
+    </div>
+
+    <div class="form-group input-group col-lg-4 field">
+      <%= f.label :password %><br />
+      <% if @user.id == nil %>
+      <%= f.password_field :password, autocomplete: "off", :class => "form-control", :placeholder => "Blank if you don't want to set one" %>
+      <% else %>
+      <%= f.password_field :password, autocomplete: "off", :class => "form-control", :placeholder => "Blank if you don't want to change it" %>
+      <% end %>
+    </div>
+
+    <div class="actions">
+      <% if @user.id == nil %>
+      <%= f.submit "Save", :class => "btn btn-default" %>
+      <% else %>
+      <%= f.submit "Update", :class => "btn btn-default" %>
+      <% end %>
+    </div>
+
+  <fieldset>
+<% end %>
+<br><br>
