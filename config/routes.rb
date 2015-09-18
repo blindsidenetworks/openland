@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   scope "/admin" do
     resources :users
   end
+  get 'users/me'
 
   get 'welcome/index'
   get 'about', to: 'welcome#about'
