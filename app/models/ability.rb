@@ -3,8 +3,11 @@ class Ability
 
   def initialize(user)
     user ||= User.new
+    #anyone can read and use
+    can :read, Room
+    #can :use, Room
     if user.id != nil
-      can :read, Room
+      can :use, Room
       #can [:update, :destroy], User, :id => user.id
     end
     if user.has_role? :admin

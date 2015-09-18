@@ -1,3 +1,4 @@
+  <br><br><br><br>
 <%= render 'layouts/messages' %>
   <div class="col-lg-12">
     <div class="panel panel-default">
@@ -13,7 +14,9 @@
                   <th>#</th>
                   <th>Room Name</th>
                   <th>Description</th>
+                  <% if can? :read, @room %>
                   <th>Actions</th>
+                  <% end %>
                 </tr>
               </thead>
               <tbody>
@@ -22,7 +25,9 @@
                   <td></td>
                   <td><%= room.name %></td>
                   <td><%= room.description %></td>
+                  <% if can? :read, room %>
                   <td><%= link_to 'Show', '/landing/'+room.id.to_s %></td>
+                  <% end %>
                 </tr>
               <% end %>
               </tbody>

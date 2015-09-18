@@ -14,40 +14,41 @@ class BbbController < ApplicationController
       error = { :key => "BBBAPICallInvalid", :message => "BBB API call invalid." }
     else
       room = Room.find(params[:id])
-      meeting_id = (Digest::SHA1.hexdigest request.host+room.user_id.to_s+room.id.to_s).to_s
+      if can? :use, @room
+        meeting_id = (Digest::SHA1.hexdigest request.host+room.user_id.to_s+room.id.to_s).to_s
 
-      #See if the meeting is running
-      begin
-        meeting_info = bbb.get_meeting_info( meeting_id, nil )
-      rescue BigBlueButton::BigBlueButtonException => exc
-        logger.info "Message for the log file #{exc.key}: #{exc.message}"
-        #This means that is not created, so create the meeting
-        base_url = request.protocol+request.host+(request.port!=80? ':'+request.port.to_s: '')
-        #logout_url = base_url+'/landing/'+room.id.to_s #Redirects to public page for the room
-        logout_url = base_url+'/bbb/close'              #Closes the window after correct logout
-        meeting_options = {:record => room.recording.to_s, :logoutURL => logout_url}
-        logger.info meeting_options.inspect
-        bbb.create_meeting(room.name, meeting_id, meeting_options)
+        #See if the meeting is running
+        begin
+          meeting_info = bbb.get_meeting_info( meeting_id, nil )
+        rescue BigBlueButton::BigBlueButtonException => exc
+          logger.info "Message for the log file #{exc.key}: #{exc.message}"
+          #This means that is not created, so create the meeting
+          base_url = request.protocol+request.host+(request.port!=80? ':'+request.port.to_s: '')
+          #logout_url = base_url+'/landing/'+room.id.to_s #Redirects to public page for the room
+          logout_url = base_url+'/bbb/close'              #Closes the window after correct logout
+          meeting_options = {:record => room.recording.to_s, :logoutURL => logout_url}
+          logger.info meeting_options.inspect
+          bbb.create_meeting(room.name, meeting_id, meeting_options)
 
-        #And then get meeting info
-        meeting_info = bbb.get_meeting_info( meeting_id, nil )
+          #And then get meeting info
+          meeting_info = bbb.get_meeting_info( meeting_id, nil )
+        end
+
+        #Get the join url
+        if current_user.id == room.user_id
+          password = meeting_info[:moderatorPW]
+          #user_name = 'Moderator'
+        else
+          password = meeting_info[:attendeePW]
+          #user_name = 'Viewer'
+        end
+        user_name = (current_user.fullname == '')? current_user.username: current_user.fullname
+
+        join_url = bbb.join_meeting_url(meeting_id, user_name, password)
+
+        #Execute the redirect
+        redirect_to join_url
       end
-
-      #Get the join url
-      if current_user.id == room.user_id
-         password = meeting_info[:moderatorPW]
-         #user_name = 'Moderator'
-      else
-         password = meeting_info[:attendeePW]
-         #user_name = 'Viewer'
-      end
-      user_name = (current_user.fullname == '')? current_user.username: current_user.fullname
-
-      join_url = bbb.join_meeting_url(meeting_id, user_name, password)
-
-      #Execute the redirect
-      redirect_to join_url
-
     end
   end
 

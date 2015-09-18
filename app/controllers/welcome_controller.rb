@@ -15,17 +15,23 @@ class WelcomeController < ApplicationController
           redirect_to root_url, :alert => 'The room number could not be found'
 
         else
-          if user_signed_in?
-            @join_url = root_path+'bbb/join/'+@room.id.to_s
-          else
-            @join_url = nil
-          end
-          render 'landing_room'
+          if can? :read, @room
+            if can? :use, @room
+              @join_url = root_path+'bbb/join/'+@room.id.to_s
+            else
+              @join_url = nil
+            end
+            render 'landing_room'
 
+          else
+            user = User.find(@room.user_id)
+            redirect_to root_url+user.username, :alert => 'You don\'t have permissions for seeing this room'
+          end
         end
       else
         redirect_to root_url
       end
+
     else
       begin
         if is_number?(params[:landing_id])
@@ -33,11 +39,11 @@ class WelcomeController < ApplicationController
         else
           @user = User.find_by!(username: params[:landing_id])
         end
-        #If the user is found
+        #If the user is found then look for the room
         @rooms = Room.where(:user_id => @user.id)
       rescue
         logger.info "Landing page not found"
-        #if is not show an error
+        #if the user is not found then show an error
         raise ActionController::RoutingError.new('Landing page not Found')
         #render :file => 'public/404.html', :status => :not_found, :layout => false
       end
