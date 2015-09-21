@@ -17,8 +17,16 @@ Rails.application.routes.draw do
 
   resources :rooms
 
-  get 'bbb/join/:id', to: 'bbb#join'
-  get 'bbb/close'
+  get    'bbb/join/:id', to: 'bbb#join'
+  get    'bbb/close'
+  get    'bbb/room/:id', to: 'bbb#room_status'
+  get    'bbb/meetings/:id', to: 'bbb#meeting_list'
+  get    'bbb/meeting/:id', to: 'bbb#meeting_info'
+  delete 'bbb/meeting/:id', to: 'bbb#meeting_end'
+  get    'bbb/recordings/:id', to: 'bbb#recording_list'
+  get    'bbb/recording/:id', to: 'bbb#recording_info'
+  patch  'bbb/recording/:id', to: 'bbb#recording_publish'
+  delete 'bbb/recording/:id', to: 'bbb#recording_delete'
 
   get ':landing_id', to: 'welcome#landing'
   get ':landing_id/:room_id', to: 'welcome#landing'
