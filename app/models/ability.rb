@@ -18,7 +18,7 @@ class Ability
     end
     if user.has_role? :member
       can [:create], Room
-      can [:update, :destroy], Room, :user_id => user.id
+      can [:update, :destroy, :close], Room, :user_id => user.id
     end
 
   end

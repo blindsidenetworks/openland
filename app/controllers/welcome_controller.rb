@@ -17,10 +17,11 @@ class WelcomeController < ApplicationController
         else
           if can? :read, @room
             if can? :use, @room
-              @join_url = root_path+'bbb/join/'+@room.id.to_s
+              @bbb_room_enter_url = bbb_room_enter_path(@room)
             else
-              @join_url = nil
+              @bbb_room_enter_url = nil
             end
+            @bbb_room_status_url = bbb_room_status_path(@room)
             render 'landing_room'
 
           else

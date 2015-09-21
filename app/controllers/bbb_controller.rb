@@ -5,7 +5,7 @@ class BbbController < ApplicationController
   BBB_ENDPOINT = 'http://test-install.blindsidenetworks.com/bigbluebutton/'
   BBB_SECRET = '8cd8ef52e8e101574e400365b55e11a6'
 
-  def join
+  def enter
     error = nil
 
     room_id = params[:id].to_i
@@ -74,7 +74,7 @@ class BbbController < ApplicationController
   def close
   end
 
-  #get    'bbb/room/:id', to: 'bbb#room_status'
+  #get    'bbb/room/:id', to: 'bbb#room_status', as: :bbb_room_status
   def room_status
     info = nil
     error = nil
@@ -91,7 +91,21 @@ class BbbController < ApplicationController
 
           #See if the meeting is running
           begin
-            info = bbb.get_meeting_info( meeting_id, nil )
+            meeting_info = bbb.get_meeting_info( meeting_id, nil )
+            #remove sensible information
+            info = {}
+            info[:running] = meeting_info[:running]
+            info[:startTime] = meeting_info[:startTime]
+            info[:endTime] = meeting_info[:endTime]
+            info[:participantCount] = meeting_info[:participantCount]
+            info[:listenerCount] = meeting_info[:listenerCount]
+            info[:moderatorCount] = meeting_info[:moderatorCount]
+            if (can? :use, room)
+              info[:enter_url] = bbb_room_enter_path(room)
+            end
+            if (can? :manage, room) || (can? :close, room)
+              info[:close_url] = bbb_room_close_path(room)
+            end
           rescue BigBlueButton::BigBlueButtonException => exc
             error = { :key => 'BBB'+exc.key.capitalize, :message => exc.message }
           end
@@ -108,7 +122,7 @@ class BbbController < ApplicationController
     render :text => status.to_json(:indent => 2), :content_type => "application/json"
   end
 
-  #delete 'bbb/room/:id', to: 'bbb#room_close'
+  #delete 'bbb/room/:id', to: 'bbb#room_close', as: :bbb_room_close
   def room_close(room_id)
   end
 

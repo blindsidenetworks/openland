@@ -13,20 +13,22 @@
       <strong>Heads up!</strong> You need to sign in for using this room.
     </div>
     <% else %>
-    <div id="room_info">
-      <h1><%= @room[:name] %></h1>
-      <h3><%= @room[:description] %></h3>
+    <div id="room" data-url="<%= bbb_room_status_path(@room) %>" >
+      <div id="room_info">
+        <h1><%= @room[:name] %></h1>
+        <h3><%= @room[:description] %></h3>
+      </div><br>
+      <div id="room_status">
+      </div><br>
+      <div id="room_actionbar">
+      <% if can? :use, @room %>
+        <%= link_to 'Enter', @bbb_room_enter_url, class: "btn btn-default", :target => "_blank" %>
+      <% end %>
+      </div><br>
     </div>
-    <div id="room_status">
-    </div>
-    <div id="room_actionbar">
-    <% if can? :use, @room %>
-    <%= link_to 'Join', @join_url, class: "btn btn-default", :target => "_blank" %>
     <% end %>
-    <% end %>
-    </div>
     <% if !user_signed_in? %>
-      <% #Add html code for the floating joining form (where the user inputs a user name and password) %>
+    <% #Add html code for the floating joining form (where the user inputs a user name and password) %>
     <% end %>
   <% end %>
 
