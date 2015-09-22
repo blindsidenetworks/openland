@@ -19,10 +19,17 @@
         <h3><%= @room[:description] %></h3>
       </div><br>
       <div id="room_status">
+        <div id="room_status_general" class="alert alert-info" role="alert"></div>
+        <div id="room_status_current"></div>
       </div><br>
       <div id="room_actionbar">
       <% if can? :use, @room %>
-        <%= link_to 'Enter', @bbb_room_enter_url, class: "btn btn-default", :target => "_blank" %>
+        <span id="room_enter">
+        </span>
+      <% end %>
+      <% if can? :close, @room %>
+        <span id="room_close">
+        </span>
       <% end %>
       </div><br>
     </div>

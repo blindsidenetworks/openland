@@ -2,8 +2,8 @@ require 'bigbluebutton_api'
 require 'digest/sha1'
 
 class BbbController < ApplicationController
-  BBB_ENDPOINT = 'http://test-install.blindsidenetworks.com/bigbluebutton/'
-  BBB_SECRET = '8cd8ef52e8e101574e400365b55e11a6'
+  BBB_ENDPOINT = APP_CONFIG['bbb_endpoint']
+  BBB_SECRET = APP_CONFIG['bbb_secret']
 
   def enter
     error = nil
@@ -37,7 +37,7 @@ class BbbController < ApplicationController
 
           #Get the join url
           if current_user != nil
-            if current_user.id == room.user_id
+            if (can? :manage, room)
               password = meeting_info[:moderatorPW]
               #user_name = 'Moderator'
             else
@@ -76,8 +76,9 @@ class BbbController < ApplicationController
 
   #get    'bbb/room/:id', to: 'bbb#room_status', as: :bbb_room_status
   def room_status
-    info = nil
-    error = nil
+    room_data = nil
+    meeting_data = nil
+    error_data = nil
 
     room_id = params[:id].to_i
     begin
@@ -85,45 +86,68 @@ class BbbController < ApplicationController
       if (can? :read, room)
         bbb ||= BigBlueButton::BigBlueButtonApi.new(BBB_ENDPOINT + "api", BBB_SECRET, "0.8", true)
         if !bbb
-          error = { :key => "BBBAPICallInvalid", :message => "BBB API call invalid." }
+          error_data = { :key => "BBBAPICallInvalid", :message => "BBB API call invalid." }
         else
           meeting_id = (Digest::SHA1.hexdigest request.host+room.user_id.to_s+room.id.to_s).to_s
 
+          #Set room information based on permissions
+          room_data = {}
+          if (can? :use, room)
+            room_data[:enter_url] = bbb_room_enter_path(room)
+          end
+          if (can? :manage, room) || (can? :close, room)
+            room_data[:close_url] = bbb_room_close_path(room)
+          end
+
           #See if the meeting is running
           begin
-            meeting_info = bbb.get_meeting_info( meeting_id, nil )
+            bbb_meeting_info = bbb.get_meeting_info( meeting_id, nil )
             #remove sensible information
-            info = {}
-            info[:running] = meeting_info[:running]
-            info[:startTime] = meeting_info[:startTime]
-            info[:endTime] = meeting_info[:endTime]
-            info[:participantCount] = meeting_info[:participantCount]
-            info[:listenerCount] = meeting_info[:listenerCount]
-            info[:moderatorCount] = meeting_info[:moderatorCount]
-            if (can? :use, room)
-              info[:enter_url] = bbb_room_enter_path(room)
-            end
-            if (can? :manage, room) || (can? :close, room)
-              info[:close_url] = bbb_room_close_path(room)
-            end
+            meeting_data = {}
+            meeting_data[:running] = bbb_meeting_info[:running]
+            meeting_data[:startTime] = bbb_meeting_info[:startTime]
+            meeting_data[:endTime] = bbb_meeting_info[:endTime]
+            meeting_data[:participantCount] = bbb_meeting_info[:participantCount]
+            meeting_data[:listenerCount] = bbb_meeting_info[:listenerCount]
+            meeting_data[:moderatorCount] = bbb_meeting_info[:moderatorCount]
           rescue BigBlueButton::BigBlueButtonException => exc
-            error = { :key => 'BBB'+exc.key.capitalize, :message => exc.message }
+            error_data = { :key => 'BBB'+exc.key.capitalize, :message => exc.message }
           end
         end
       else
-        error = { :key => "RoomAccessNotAllowed", :message => "Access to room with id ["+room_id.to_s+"] is not allowed"  }
+        error_data = { :key => "RoomAccessNotAllowed", :message => "Access to room with id ["+room_id.to_s+"] is not allowed"  }
       end
 
     rescue ActiveRecord::RecordNotFound => exc
-      error = { :key => 'RoomNotFound', :message => exc.message }
+      error_data = { :key => 'RoomNotFound', :message => exc.message }
     end
 
-    status = { :info => info, :error => error}
+    status = { :room => room_data, :meeting => meeting_data, :error => error_data}
     render :text => status.to_json(:indent => 2), :content_type => "application/json"
   end
 
   #delete 'bbb/room/:id', to: 'bbb#room_close', as: :bbb_room_close
   def room_close(room_id)
+    room_id = params[:id].to_i
+    begin
+      room = Room.find(room_id)
+
+      if (can? :close, room)
+        bbb ||= BigBlueButton::BigBlueButtonApi.new(BBB_ENDPOINT + "api", BBB_SECRET, "0.8", true)
+        if !bbb
+          error_data = { :key => "BBBAPICallInvalid", :message => "BBB API call invalid." }
+        else
+          meeting_id = (Digest::SHA1.hexdigest request.host+room.user_id.to_s+room.id.to_s).to_s
+        end
+      end
+
+    rescue ActiveRecord::RecordNotFound => exc
+      error_data = { :key => 'RoomNotFound', :message => exc.message }
+    end
+
+    status = { :room => room_data, :meeting => meeting_data, :error => error_data}
+    render :text => status.to_json(:indent => 2), :content_type => "application/json"
+
   end
 
   #get    'bbb/meetings', to: 'bbb#meeting_list'
