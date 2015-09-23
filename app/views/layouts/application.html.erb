@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%= csrf_meta_tags %>
   <title>OpenLand</title>
   <!-- Include style per-controller - vendor plugins -->
   <%= stylesheet_link_tag params[:controller] if ::Rails.application.assets.find_asset("#{params[:controller]}.css") %>
@@ -13,7 +14,6 @@
 
   <!-- Main javascript files -->
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
 
   <!-- Include javascript per-controller - vendor plugins -->
   <%= javascript_include_tag params[:controller] if ::Rails.application.assets.find_asset("#{params[:controller]}.js") %>
@@ -38,7 +38,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <%= link_to "OpenLand", root_path, :class => "navbar-brand" %>
+        <%= link_to "OpenLand", root_path, :class => "navbar-brand", 'data-no-turbolink' => true %>
       </div>
       <!-- /.navbar-header -->
 

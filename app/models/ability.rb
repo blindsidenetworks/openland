@@ -20,6 +20,5 @@ class Ability
       can [:create], Room
       can [:update, :destroy, :close], Room, :user_id => user.id
     end
-
   end
 end

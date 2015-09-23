@@ -6,7 +6,7 @@ class WelcomeController < ApplicationController
 
   def landing
     logger.info params.inspect
-    if params[:landing_id] == 'dashboard' || params[:landing_id] == 'rooms' || params[:landing_id] == 'profile' || params[:landing_id] == 'settings'
+    if params[:landing_id] == 'dashboard' || params[:landing_id] == 'rooms'
       redirect_to '/' + params[:landing_id] + '/index'
     else if params[:landing_id] == 'landing'
       if is_number?(params[:room_id])
@@ -45,8 +45,8 @@ class WelcomeController < ApplicationController
       rescue
         logger.info "Landing page not found"
         #if the user is not found then show an error
-        raise ActionController::RoutingError.new('Landing page not Found')
-        #render :file => 'public/404.html', :status => :not_found, :layout => false
+        #raise ActionController::RoutingError.new('Landing page not found')
+        render :file => 'public/404.html', :status => :not_found, :layout => false
       end
     end end
   end

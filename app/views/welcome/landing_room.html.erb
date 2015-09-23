@@ -14,6 +14,9 @@
     </div>
     <% else %>
     <div id="room" data-url="<%= bbb_room_status_path(@room) %>" >
+      <div id="room_top_bar">
+        <%= link_to '', '#', id: "room_refresh", :name => "room_refresh", :title => 'Refresh', class: "btn btn-default glyphicon glyphicon-refresh pull-left" %>
+      </div><br>
       <div id="room_info">
         <h1><%= @room[:name] %></h1>
         <h3><%= @room[:description] %></h3>
@@ -24,12 +27,10 @@
       </div><br>
       <div id="room_actionbar">
       <% if can? :use, @room %>
-        <span id="room_enter">
-        </span>
+        <span id="room_enter" data-url="<%= bbb_room_enter_path(@room) %>"></span>
       <% end %>
       <% if can? :close, @room %>
-        <span id="room_close">
-        </span>
+        <span id="room_close" data-url="<%= bbb_room_close_path(@room) %>"></span>
       <% end %>
       </div><br>
     </div>
@@ -40,3 +41,12 @@
   <% end %>
 
   </div>
+
+<script>
+$(document).ready(function($) {
+    initButtonRoomRefresh ();
+    initButtonRoomEnter ();
+    initButtonRoomClose ();
+    refreshRoom ();
+});
+</script>
