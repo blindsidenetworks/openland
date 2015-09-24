@@ -66,6 +66,6 @@ class User < ActiveRecord::Base
   end
 
   def to_s
-    (self.fullname != '')? self.fullname: self.username
+    (self.fullname != '')? self.fullname: (self.username != '')? self.username: self.email
   end
 end
