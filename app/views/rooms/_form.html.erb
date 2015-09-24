@@ -25,14 +25,35 @@
       <%= f.text_area :description, :class => "form-control" %>
     </div>
 
+    <div class="form-group input-group col-lg-7 field">
+      <%= f.label :welcome %><br>
+      <%= f.text_area :welcome, :class => "form-control" %>
+    </div>
+
+    <div class="form-group input-group field">
+      <%= f.check_box :wait_moderator %>&nbsp;
+      <b>Wait for moderator<b><br>
+    </div>
+
     <div class="form-group input-group field">
       <%= f.check_box :recording %>&nbsp;
       <b>Recording<b><br>
     </div>
 
+    <div class="form-group input-group col-lg-5 field">
+      <%= f.label :moderator_password %><br>
+      <%= f.text_field :moderator_password, :class => "form-control" %>
+    </div>
+
+    <div class="form-group input-group col-lg-5 field">
+      <%= f.label :viewer_password %><br>
+      <%= f.text_field :viewer_password, :class => "form-control" %>
+    </div>
+
     <div class="action">
       <%= f.submit :class => 'btn btn-primary' %>&nbsp;<%= link_to 'Cancel', rooms_path, class: "btn btn-default" %>
     </div>
+
   </fieldset>
 
 <% end %>

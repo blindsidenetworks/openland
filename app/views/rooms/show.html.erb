@@ -8,6 +8,7 @@
     <div id="room" data-url="<%= bbb_room_status_path(@room) %>" >
       <div id="room_top_bar">
         <%= link_to '', '#', id: "room_refresh", :name => "room_refresh", :title => 'Refresh', class: "btn btn-default glyphicon glyphicon-refresh pull-left" %>
+        <%= link_to '', '#', id: "room_edit", :name => "room_edit", :title => 'Edit', class: "btn btn-default glyphicon glyphicon-edit pull-right" %>
       </div><br>
       <div id="room_info">
         <h1><%= @room[:name] %></h1>
