@@ -46,7 +46,6 @@ class RoomsController < ApplicationController
 
   def update
     @room = Room.find(params[:id])
-
     if @room.update(room_params)
       redirect_to @room
     else
@@ -57,7 +56,6 @@ class RoomsController < ApplicationController
   def destroy
     @room = Room.find(params[:id])
     @room.destroy
-
     redirect_to rooms_path
   end
 

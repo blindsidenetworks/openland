@@ -10,19 +10,24 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-
     if @user.save
       redirect_to @user
     else
       render 'new'
     end
-
   end
 
   def update
     if params[:user][:password].blank?
       params[:user].delete(:password)
       params[:user].delete(:password_confirmation)
+    end
+
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to @user
+    else
+      render 'edit'
     end
   end
 
