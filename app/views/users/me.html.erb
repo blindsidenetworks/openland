@@ -1,1 +1,9 @@
-<%= current_user.username %>
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header"><%= @current_user.fullname %></h1>
+                <h3>
+                  <b>Username:</b> <%= @current_user.username %><br>
+                  <b>Email:</b> <%= @current_user.email %><br>
+                </h3>
+            </div>
+        </div>
