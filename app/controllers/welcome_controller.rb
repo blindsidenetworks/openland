@@ -29,6 +29,7 @@ class WelcomeController < ApplicationController
             redirect_to root_url+user.username, :alert => 'You don\'t have permissions for seeing this room'
           end
         end
+
       else
         redirect_to root_url
       end
