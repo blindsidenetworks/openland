@@ -1,0 +1,14 @@
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header"><%= @user.fullname %></h1>
+                <h3>
+                  <b>Username:</b> <%= @user.username %><br>
+                  <b>Email:</b> <%= @user.email %><br>
+                  <b>Roles:</b>
+                  <% @user.roles.each do |role| %>
+                     <li><%= role_name role %></li>
+                  <% end %>
+                  <br>
+                </h3>
+            </div>
+        </div>

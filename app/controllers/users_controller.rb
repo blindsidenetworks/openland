@@ -4,7 +4,12 @@ class UsersController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @users = User.all
+    @user = current_user
+    if (@user.has_role? :admin)
+      @users = User.all
+    else
+      @users = User.where(:id => @user.id)
+    end
   end
 
   def new
@@ -47,6 +52,10 @@ class UsersController < ApplicationController
   end
 
   def show
+  end
+
+  def me
+    @user = current_user
   end
 
   private

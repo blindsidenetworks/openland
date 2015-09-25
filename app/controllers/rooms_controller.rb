@@ -7,7 +7,7 @@ class RoomsController < ApplicationController
 
   def index
     @user = current_user
-    if @user.has_role? :admin
+    if (@user.has_role? :admin) || (@user.has_role? :manager)
       @rooms = Room.all
     else
       @rooms = Room.where(:user_id => @user.id)
