@@ -92,7 +92,7 @@ function refreshRoom () {
                     status.current += status_running_for(meeting_data.startTime);
                     status.current += ' '+status_attendees_in(meeting_data.moderatorCount, meeting_data.participantCount);
                 } else {
-                    status.current = 'Nothing to say';
+                    status.current = 'There are no users in this session.';
                 }
 
                 status.general = "A session in this room is in progress.";

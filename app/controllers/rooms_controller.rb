@@ -1,7 +1,7 @@
 class RoomsController < ApplicationController
   include BbbHelper
   #before_filter :authenticate_user!, :except => [:index, :show]
-  #before_filter :authenticate_user!
+  before_filter :authenticate_user!
   load_and_authorize_resource
 
   def index
@@ -14,23 +14,14 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @room = Room.find(params[:id])
-    if user_signed_in?
-      @join_url = root_path+'bbb/join/'+@room.id.to_s
-    else
-      @join_url = nil
-    end
   end
 
   def new
-    @room = Room.new
   end
 
   def create
-    #@room = Room.new(params.require(:room).permit(:name, :description))
     @room = Room.new(room_params) do |r|
       r.user_id = current_user.id
-      r.recording = false
     end
 
     if @room.save
@@ -41,11 +32,9 @@ class RoomsController < ApplicationController
   end
 
   def edit
-    @room = Room.find(params[:id])
   end
 
   def update
-    @room = Room.find(params[:id])
     if @room.update(room_params)
       redirect_to @room
     else
