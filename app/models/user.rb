@@ -13,8 +13,6 @@ class User < ActiveRecord::Base
   # 0000 0001 =  1 = [:admin]
   # 0000 0010 =  2 = [:manager]
   # 0000 0100 =  4 = [:member]
-  # 0000 1000 =  8 = [:instructor]
-  # 0001 0000 = 16 = [:student]
   # 0000 0110 =  6 = [:manager, :member]
   # 0000 0101 =  5 = [:admin, :member]
 
@@ -29,7 +27,7 @@ class User < ActiveRecord::Base
 
   # declare the valid roles -- do not change the order if you add more
   # roles later, always append them at the end!
-  roles :admin, :manager, :member, :instructor, :student
+  roles :admin, :manager, :member
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'

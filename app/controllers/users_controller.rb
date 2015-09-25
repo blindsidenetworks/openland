@@ -8,13 +8,15 @@ class UsersController < ApplicationController
   end
 
   def new
+    # Add the default role
+    @user.roles = [:member]
   end
 
   def create
     # Create a new User based on the parameters received
     @user = User.new(user_params)
-    # Add the default role
-    @user.roles = [:member]
+    # Add the selected role
+    @user.roles = [params[:role]]
     # Save the new User
     if @user.save
       redirect_to @user
@@ -30,6 +32,7 @@ class UsersController < ApplicationController
     end
 
     @user = User.find(params[:id])
+    @user.roles = [params[:role]]
     if @user.update(user_params)
       redirect_to @user
     else

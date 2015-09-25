@@ -44,6 +44,12 @@
       <% end %>
     </div>
 
+    <!-- <%= @user.role_symbols[0] %> -->
+    <div class="form-group input-group col-lg-4 field">
+      <%= f.label :role %><br />
+      <%= select_tag(:role, options_for_select(roles, @user.role_symbols[0])) %>
+    </div>
+
     <div class="actions">
       <% if @user.id == nil %>
       <%= f.submit "Save", :class => "btn btn-default" %>

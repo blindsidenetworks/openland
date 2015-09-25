@@ -4,6 +4,11 @@
                 <h3>
                   <b>Username:</b> <%= @user.username %><br>
                   <b>Email:</b> <%= @user.email %><br>
+                  <b>Roles:</b>
+                  <% @user.roles.each do |role| %>
+                     <%= role_name role %>
+                  <% end %>
+                  <br>
                 </h3>
             </div>
         </div>
