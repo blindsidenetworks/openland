@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  include UsersHelper
   before_filter :authenticate_user!
   load_and_authorize_resource
 
@@ -10,7 +11,11 @@ class UsersController < ApplicationController
   end
 
   def create
+    # Create a new User based on the parameters received
     @user = User.new(user_params)
+    # Add the default role
+    @user.roles = [:member]
+    # Save the new User
     if @user.save
       redirect_to @user
     else
