@@ -7,7 +7,7 @@
             <div class="panel-body">
               <%= link_to 'Add user', new_user_path, class: "btn" %>
               <div class="table-responsive table-bordered">
-                <table class="table">
+                <table id="users" class="table">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -28,11 +28,9 @@
                       <td><%= user.last_name %></td>
                       <td><%= user.email %></td>
                       <td>
-                        <%= link_to 'Show', user_path(user) %> |
-                        <%= link_to 'Edit', edit_user_path(user) %> |
-                        <%= link_to 'Destroy', user_path(user),
-                            method: :delete,
-                            data: { confirm: 'Are you sure?' } %>
+                        <%= link_to '', user_path(user), :title => 'Show', class: "btn btn-default glyphicon glyphicon-eye-open" %>
+                        <%= link_to '', edit_user_path(user), :title => 'Edit', class: "btn btn-default glyphicon glyphicon-edit" %>
+                        <%= link_to '', user_path(user), :method => :delete, :title => 'Delete', :class => "btn btn-default glyphicon glyphicon-remove", :data => { confirm: 'Are you sure?' } %>
                       </td>
                     </tr>
                     <% end %>
@@ -47,3 +45,11 @@
         <!-- /.panel -->
       </div>
       <!-- /.col-lg-12 -->
+
+<script>
+$(document).ready(function($) {
+    $('#users').dataTable ({
+        sPaginationType : "full_numbers"
+    });
+});
+</script>

@@ -22,3 +22,11 @@
 en:
   backend:
     devise/registrations:           "Profile"
+
+  users:
+    admin:                          "Administrator"
+    manager:                        "Manager"
+    member:                         "Member"
+    teacher:                        "Teacher"
+    student:                        "Student"
+

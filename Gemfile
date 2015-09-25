@@ -62,7 +62,9 @@ gem 'bigbluebutton-api-ruby', '1.4.0'
 
 gem 'bootstrap-sass', '3.3.0.0'
 gem 'bootstrap-social-rails', '~> 4.8.0'
-gem "font-awesome-rails"
+gem 'font-awesome-rails'
+gem 'jquery-datatables-rails'
+gem 'jquery-ui-rails'
 
 gem 'omniauth'
 gem 'omniauth-digitalocean'

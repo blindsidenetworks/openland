@@ -7,7 +7,7 @@
             <div class="panel-body">
               <%= link_to 'New room', new_room_path, class: "btn" %>
               <div class="table-responsive table-bordered">
-                <table class="table">
+                <table id="rooms" class="table">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -27,7 +27,7 @@
                       <td></td>
                       <% if @user.has_role? :admin %>
                       <th>
-                        <%= link_to room.owner.to_s, "/"+room.owner.username %>
+                        <%= link_to room.owner.to_s, "/"+room.owner.username, :title => 'Show landing page' %>
                       </th>
                       <% end %>
                       <td><%= room.name %></td>
@@ -35,11 +35,9 @@
                       <td><%= room.moderator_password %></td>
                       <td><%= room.viewer_password %></td>
                       <td>
-                        <%= link_to 'Show', room_path(room) %> |
-                        <%= link_to 'Edit', edit_room_path(room) %> |
-                        <%= link_to 'Destroy', room_path(room),
-                            method: :delete,
-                            data: { confirm: 'Are you sure?' } %>
+                        <%= link_to '', room_path(room), :title => 'Show', class: "btn btn-default glyphicon glyphicon-eye-open" %>
+                        <%= link_to '', edit_room_path(room), :title => 'Edit', class: "btn btn-default glyphicon glyphicon-edit" %>
+                        <%= link_to '', room_path(room), :method => :delete, :title => 'Delete', :class => "btn btn-default glyphicon glyphicon-remove", :data => { confirm: 'Are you sure?' } %>
                       </td>
                     </tr>
                   <% end %>
@@ -53,3 +51,11 @@
         <!-- /.panel -->
       </div>
       <!-- /.col-lg-12 -->
+
+<script>
+$(document).ready(function($) {
+    $('#rooms').dataTable ({
+        sPaginationType : "full_numbers"
+    });
+});
+</script>

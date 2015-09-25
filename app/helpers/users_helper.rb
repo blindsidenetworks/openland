@@ -1,5 +1,5 @@
 module UsersHelper
   def role_name(role_key)
-    key.capitalize
+    t('users.'+role_key)
   end
 end
