@@ -16,6 +16,8 @@
                       <% end %>
                       <th>Room Name</th>
                       <th>Description</th>
+                      <th>Moderator password</th>
+                      <th>Viewer password</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -30,6 +32,8 @@
                       <% end %>
                       <td><%= room.name %></td>
                       <td><%= room.description %></td>
+                      <td><%= room.moderator_password %></td>
+                      <td><%= room.viewer_password %></td>
                       <td>
                         <%= link_to 'Show', room_path(room) %> |
                         <%= link_to 'Edit', edit_room_path(room) %> |

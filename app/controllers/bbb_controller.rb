@@ -26,7 +26,7 @@ class BbbController < ApplicationController
             base_url = request.protocol+request.host+(request.port!=80? ':'+request.port.to_s: '')
             #logout_url = base_url+'/landing/'+room.id.to_s #Redirects to public page for the room
             logout_url = base_url+'/bbb/close'              #Closes the window after correct logout
-            meeting_options = {:record => room.recording.to_s, :logoutURL => logout_url}
+            meeting_options = {:welcome => room.welcome, :record => room.recording.to_s, :logoutURL => logout_url, :moderatorPW => room.moderator_password, :attendeePW => room.viewer_password }
             logger.info meeting_options.inspect
             bbb.create_meeting(room.name, meeting_id, meeting_options)
 
@@ -125,7 +125,6 @@ class BbbController < ApplicationController
   def room_close
     error_data = nil
 
-    logger.info "EXECUTING CLOSE"
     room_id = params[:id].to_i
     begin
       room = Room.find(room_id)
