@@ -25,8 +25,8 @@ Rails.application.routes.draw do
   delete 'bbb/meeting/:id', to: 'bbb#meeting_end'
   get    'bbb/recordings/:id', to: 'bbb#recording_list'
   get    'bbb/recording/:id', to: 'bbb#recording_info'
-  patch  'bbb/recording/:id', to: 'bbb#recording_publish'
-  delete 'bbb/recording/:id', to: 'bbb#recording_delete'
+  patch  'bbb/recording/:id', to: 'bbb#recording_publish', as: :bbb_recording_publish
+  delete 'bbb/recording/:id', to: 'bbb#recording_delete', as: :bbb_recording_delete
   get    'bbb/close'
 
   get ':landing_id', to: 'welcome#landing'

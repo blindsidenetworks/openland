@@ -49,7 +49,7 @@
           <tr>
             <td>
             <% recording[:playback][:format].each do |playback| %>
-              <a href="<%= playback[:url] %>" target="_new"><%= playback[:type] %></a>
+              <%= link_to playback[:type], playback[:url], id: "recording_"+playback[:type], :name => "recording_"+playback[:type], :title => "Playback "+playback[:type], class: "", :target => "_blank" %>
             <% end %>
             </td>
             <td><%= recording[:name] %></td>
@@ -57,7 +57,9 @@
             <td><%= recording[:startTime].in_time_zone %></td>
             <td><%= to_duration(recording[:endTime].to_i - recording[:startTime].to_i).to_s %></td>
             <% if can? :manage_recording, @room %>
-            <td>Actions</td>
+            <td>
+              <span id="recording_delete-<%= recording[:recordID] %>" data-url="<%= bbb_recording_delete_path(recording[:recordID]) %>">Actions</span>
+            </td>
             <% end %>
           </tr>
         <% end %>
