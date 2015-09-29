@@ -1,5 +1,6 @@
 class WelcomeController < ApplicationController
   include ApplicationHelper
+  include BbbHelper
 
   def index
   end
@@ -16,14 +17,22 @@ class WelcomeController < ApplicationController
 
         else
           if can? :read, @room
+            # Prepare URLs
             if can? :use, @room
               @bbb_room_enter_url = bbb_room_enter_path(@room)
             else
               @bbb_room_enter_url = nil
             end
             @bbb_room_status_url = bbb_room_status_path(@room)
+            # Retrieve and set @recordings
+            bbb_recordings = bbb_get_recordings @room
+            if bbb_recordings[:returncode] && bbb_recordings[:recordings].any?
+              @recordings = bbb_recordings[:recordings]
+            else
+              @recordings = []
+            end
+            # Render the room
             render 'landing_room'
-
           else
             user = User.find(@room.user_id)
             redirect_to root_url+user.username, :alert => 'You don\'t have permissions for seeing this room'

@@ -35,6 +35,37 @@
       </div><br>
     </div>
     <% end %>
+    <% if @recordings.any? %>
+    <div>
+      <h3>Recordings</h3><br>
+      <table id="recordings" class="table">
+        <thead>
+          <tr>
+            <th>Recording</th>
+            <th>Activity</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @recordings.each do |recording| %>
+          <tr>
+            <td>
+            <% recording[:playback][:format].each do |playback| %>
+              <a href="<%= playback[:url] %>" target="_new"><%= playback[:type] %></a>
+            <% end %>
+            </td>
+            <td><%= recording[:name] %></td>
+            <td><%= recording[:metadata][:description]? recording[:metadata][:description]: 'none' %></td>
+            <td><%= recording[:startTime].in_time_zone %></td>
+            <td><%= to_duration(recording[:endTime].to_i - recording[:startTime].to_i).to_s %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+    <% end %>
     <% if !user_signed_in? %>
     <% #Add html code for the floating joining form (where the user inputs a user name and password) %>
     <% end %>
@@ -48,5 +79,8 @@ $(document).ready(function($) {
     initButtonRoomEnter ();
     initButtonRoomClose ();
     refreshRoom ();
+    $('#recordings').dataTable ({
+        sPaginationType : "full_numbers"
+    });
 });
 </script>

@@ -26,9 +26,9 @@
                     <tr>
                       <td></td>
                       <% if @user.has_role? :admin %>
-                      <th>
+                      <td>
                         <%= link_to room.owner.to_s, "/"+room.owner.username, :title => 'Show landing page' %>
-                      </th>
+                      </td>
                       <% end %>
                       <td><%= room.name %></td>
                       <td><%= room.description %></td>

@@ -144,9 +144,13 @@ function refreshRoom () {
     });
 };
 
+function refreshRecordings () {
+};
+
 function initButtonRoomRefresh () {
     $('#room_refresh').click (function (event) {
         refreshRoom ();
+        refreshRecordings ();
     });
 }
 

@@ -97,7 +97,7 @@ class BbbController < ApplicationController
           #See if the meeting is running
           begin
             bbb_meeting_info = bbb.get_meeting_info( meeting_id, nil )
-            #remove sensible information
+            #remove sensitive information
             meeting_data = {}
             meeting_data[:running] = bbb_meeting_info[:running]
             meeting_data[:startTime] = bbb_meeting_info[:startTime]
