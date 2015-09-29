@@ -18,7 +18,6 @@ class Ability
     end
     if user.has_role? :member
       can [:create], Room
-      #can [:update, :destroy, :close, :manage_recording], Room, :user_id == user.id
       can [:manage], Room do |r|
         r.user_id == user.id
       end

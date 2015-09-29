@@ -16,9 +16,6 @@ class RoomsController < ApplicationController
 
   def show
     bbb_recordings = bbb_get_recordings @room
-    logger.info "---------------------------------------------------------"
-    logger.info bbb_recordings.inspect
-    logger.info "---------------------------------------------------------"
     if bbb_recordings[:returncode] && bbb_recordings[:recordings].any?
        @recordings = bbb_recordings[:recordings]
     else
