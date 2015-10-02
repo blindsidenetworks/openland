@@ -26,7 +26,7 @@ class WelcomeController < ApplicationController
             @bbb_room_status_url = bbb_room_status_path(@room)
             # Retrieve and set @recordings
             bbb_recordings = bbb_get_recordings @room
-            if bbb_recordings[:returncode] && bbb_recordings[:recordings].any?
+            if bbb_recordings && bbb_recordings[:returncode] && bbb_recordings[:recordings].any?
               @recordings = bbb_recordings[:recordings]
             else
               @recordings = []

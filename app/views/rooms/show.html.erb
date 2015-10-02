@@ -6,24 +6,24 @@
     </div>
     <% else %>
     <div id="room" data-url="<%= bbb_room_status_path(@room) %>" >
-      <div id="room_top_bar">
-        <%= link_to '', '#', id: "room_refresh", :name => "room_refresh", :title => 'Refresh', class: "btn btn-default glyphicon glyphicon-refresh pull-left" %>
-        <%= link_to '', edit_room_path(@room), id: "room_edit", :name => "room_edit", :title => 'Edit', class: "btn btn-default glyphicon glyphicon-edit pull-right" %>
+      <div id="room-top-bar">
+        <%= link_to '', '#', id: "room-refresh", :name => "room-refresh", :title => 'Refresh', class: "btn btn-default glyphicon glyphicon-refresh pull-left" %>
+        <%= link_to '', edit_room_path(@room), id: "room-edit", :name => "room-edit", :title => 'Edit', class: "btn btn-default glyphicon glyphicon-edit pull-right" %>
       </div><br>
-      <div id="room_info">
+      <div id="room-info">
         <h1><%= @room[:name] %></h1>
         <h3><%= @room[:description] %></h3>
       </div><br>
-      <div id="room_status">
-        <div id="room_status_general" class="alert alert-info" role="alert"></div>
-        <div id="room_status_current"></div>
+      <div id="room-status">
+        <div id="room-status-general" class="alert alert-info" role="alert"></div>
+        <div id="room-status-current"></div>
       </div><br>
-      <div id="room_actionbar">
+      <div id="room-actionbar">
       <% if can? :use, @room %>
-        <span id="room_enter" data-url="<%= bbb_room_enter_path(@room) %>"></span>
+        <span id="room-enter" data-url="<%= bbb_room_enter_path(@room) %>"></span>
       <% end %>
       <% if can? :close, @room %>
-        <span id="room_close" data-url="<%= bbb_room_close_path(@room) %>"></span>
+        <span id="room-close" data-url="<%= bbb_room_close_path(@room) %>"></span>
       <% end %>
       </div><br>
     </div>
@@ -49,7 +49,7 @@
           <tr>
             <td>
             <% recording[:playback][:format].each do |playback| %>
-              <%= link_to playback[:type], playback[:url], id: "recording_"+playback[:type], :name => "recording_"+playback[:type], :title => "Playback "+playback[:type], class: "", :target => "_blank" %>
+              <%= link_to playback[:type], playback[:url], id: "recording-"+playback[:type], :name => "recording-"+playback[:type], :title => "Playback "+playback[:type], class: "", :target => "_blank" %>
             <% end %>
             </td>
             <td><%= recording[:name] %></td>
@@ -58,7 +58,7 @@
             <td><%= to_duration(recording[:endTime].to_i - recording[:startTime].to_i).to_s %></td>
             <% if can? :manage_recording, @room %>
             <td>
-              <span id="recording_delete-<%= recording[:recordID] %>" data-url="<%= bbb_recording_delete_path(recording[:recordID]) %>">Actions</span>
+              <span id="recording-delete-<%= recording[:recordID] %>" data-url="<%= bbb_recording_delete_path(recording[:recordID]) %>">Actions</span>
             </td>
             <% end %>
           </tr>
@@ -66,9 +66,6 @@
         </tbody>
       </table>
     </div>
-    <% end %>
-    <% if !user_signed_in? %>
-    <% #Add html code for the floating joining form (where the user inputs a user name and password) %>
     <% end %>
   <% end %>
 

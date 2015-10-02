@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :rooms
 
   get    'bbb/enter/:id', to: 'bbb#enter', as: :bbb_room_enter
+  post   'bbb/enter/:id', to: 'bbb#enter', as: :bbb_room_enter_post
   get    'bbb/room/:id', to: 'bbb#room_status', as: :bbb_room_status
   delete 'bbb/room/:id', to: 'bbb#room_close', as: :bbb_room_close
   get    'bbb/meetings/:id', to: 'bbb#meeting_list'

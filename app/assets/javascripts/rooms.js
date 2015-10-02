@@ -34,7 +34,7 @@ function status_started_at (startTime) {
 
 function status_running_for (startTime) {
     var start = new Date (startTime);
-    return ' and has been running for <span id="elapsed_time">' + elapsed_time (start) +'</span>.';
+    return ' and has been running for <span id="elapsed-time">' + elapsed_time (start) +'</span>.';
 }
 
 function startTimer (startTime) {
@@ -72,7 +72,7 @@ function elapsed_time (start) {
 }
 
 function tick (start) {
-    $("#elapsed_time").html ( elapsed_time (start) );
+    $("#elapsed-time").html ( elapsed_time (start) );
 }
 
 function refreshRoom () {
@@ -98,44 +98,73 @@ function refreshRoom () {
                 status.general = "A session in this room is in progress.";
                 if(!room_data.can_use) {
                     status.general += " But you can not enter now.";
-                    $('#room_enter').html ('');
-
+                    $('#room-enter').html ('');
                 } else {
                     status.general += " You can enter right now.";
-                    $('#room_enter').html ('<a class="btn btn-primary" role="button">Enter</a>');
+                    if(!room_data.user_signed_in) {
+                        $('#room-enter').html ('<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#enter-modal">Enter</button>');
+                        $('#room-enter-modal').html ('<button type="button" class="btn btn-primary" data-dismiss="modal">Enter</button>');
+                    } else {
+                        $('#room-enter').html ('<button type="button" class="btn btn-primary">Enter</button>');
+                    }
                 }
 
                 if(!room_data.can_close || !meeting_data.running) {
-                    $('#room_close').html('');
+                    $('#room-close').html('');
                 } else {
-                    $('#room_close').html ('<a class="btn btn-default" role="button">Close</a>');
+                    $('#room-close').html ('<a class="btn btn-default" role="button">Close</a>');
                 }
 
-                $('#room_status_current').html (status.current);
+                $('#room-status-current').html (status.current);
                 startTimer (meeting_data.startTime);
 
             } else {
                 if( error_data.key == 'BBBNotfound' ) {
                     if(!room_data.can_use) {
                         status.general = "Room is ready, but you can not enter now.";
-                        $('#room_enter').html ('');
-
+                        $('#room-enter').html ('');
                     } else {
                         status.general = "Room is ready to enter.";
-                        $('#room_enter').html ('<a class="btn btn-primary" role="button">Enter</a>');
+                        if(!room_data.user_signed_in) {
+                            $('#room-enter').html ('<button id="room-enter-button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-enter">Enter</button>');
+                            $('#room-enter-modal').html ('<button id="room-enter-modal-button" type="submit" class="btn btn-primary">Enter</button>');
+                            $('#room-enter-modal-button').submit (function (event) {
+                                console.info ('room-enter-modal-button submited');
+                            });
+                            /*
+                            $('#room-enter-modal-button').click (function (event) {
+                                console.info ('room-enter-modal-button clicked');
+                                $('#modal-enter').modal('toggle');
+                                if( $("#attendee-password").val () == '' ) {
+                                    alert ('Password is required');
+                                } else {
+                                    console.info ('It should launch here');
+                                    // window.open ($("#room-enter-modal").data ('url'));
+                                    // window.setTimeout (refreshRoom, 15000);
+                                }
+                            });
+                            */
+
+                        } else {
+                            $('#room-enter').html ('<button id="room-enter-button" type="button" class="btn btn-primary">Enter</button>');
+                            $('#room-enter-button').click (function (event) {
+                                window.open ($("#room-enter").data ('url'));
+                                window.setTimeout (refreshRoom, 15000);
+                            });
+                        }
                     }
 
-                    $('#room_close').html ('');
+                    $('#room-close').html ('');
 
                 } else {
                     status.general = "Room can not be used right now.";
                 }
                 stopTimer ();
                 status.current = '';
-                $('#room_status_current').html (status.current);
+                $('#room-status-current').html (status.current);
             }
 
-            $('#room_status_general').html (status.general);
+            $('#room-status-general').html (status.general);
 
         },
         error : function(xmlHttpRequest, status, error) {
@@ -148,23 +177,27 @@ function refreshRecordings () {
 };
 
 function initButtonRoomRefresh () {
-    $('#room_refresh').click (function (event) {
+    $('#room-refresh').click (function (event) {
         refreshRoom ();
         refreshRecordings ();
     });
 }
 
 function initButtonRoomEnter () {
-    $('#room_enter').click (function (event) {
-        window.open ($("#room_enter").data ('url'));
-        window.setTimeout (refreshRoom, 15000);
-    });
+    if( $("#room-enter-modal").length ) {
+        // Modal defined, user NOT signed in
+        console.info ('modal defined, user NOT signed in');
+
+    } else {
+        // Modal NOT defined, user signed in
+        console.info ('modal NOT defined, user signed in');
+    }
 }
 
 function initButtonRoomClose () {
-    $('#room_close').click (function (event) {
+    $('#room-close').click (function (event) {
         $.ajax({
-            url : $("#room_close").data ('url'),
+            url : $("#room-close").data ('url'),
             dataType : "json",
             async : true,
             type : 'DELETE',

@@ -4,9 +4,12 @@ require 'digest/sha1'
 class BbbController < ApplicationController
   include ApplicationHelper
   include BbbHelper
+  protect_from_forgery with: :null_session
 
   def enter
     error = nil
+    logger.info "**********************************************"
+    logger.info params.inspect
 
     room_id = params[:id].to_i
     begin
@@ -47,6 +50,7 @@ class BbbController < ApplicationController
       room_data = {}
       room_data[:can_use] = (can? :use, room)
       room_data[:can_close] = (can? :manage, room) || (can? :close, room)
+      room_data[:user_signed_in] = (user_signed_in?)
 
       bbb_meeting_info = bbb_get_meeting_info room
       if bbb_meeting_info[:returncode]
