@@ -1,1 +1,12 @@
-<script>window.close();</script>
+<script>
+  opener.refreshRoom();
+  window.close();
+</script>
+
+<div class="panel-body">
+  <div class="alert alert-warning" role="warning">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Warning:</span>
+    Warning: The session is over, but the window could not be closed automatically. It is necessary to close it manually.
+  </div>
+</div>
