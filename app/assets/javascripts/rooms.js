@@ -103,9 +103,11 @@ function refreshRoom () {
                     status.general += " You can enter right now.";
                     if(!room_data.user_signed_in) {
                         $('#room_enter').html ('<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_room">Enter</button>');
-                        $('#modal_room_enter').html ('<button id="modal_room_enter_button" type="button" class="btn btn-primary" data-dismiss="modal">Enter</button>');
+                        $('#modal_room_enter').html ('<button id="modal_room_enter_button" type="submit" class="btn btn-primary" data-dismiss="modal">Enter</button>');
                         $('#modal_room_enter_button').click (function (event) {
+                            console.info ('modal_room_enter_button clicked 0');
                             $('#modal_room_enter_form').submit ();
+                            $('#modal_room').toggle ();
                         });
                     } else {
                         $('#room_enter').html ('<button id="room_enter_button" type="button" class="btn btn-primary">Enter</button>');
@@ -134,9 +136,11 @@ function refreshRoom () {
                         status.general = "Room is ready to enter.";
                         if(!room_data.user_signed_in) {
                             $('#room_enter').html ('<button id="room_enter_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_room">Enter</button>');
-                            $('#modal_room_enter').html ('<button id="modal_room_enter_button" type="button" class="btn btn-primary">Enter</button>');
+                            $('#modal_room_enter').html ('<button id="modal_room_enter_button" type="submit" class="btn btn-primary">Enter</button>');
                             $('#modal_room_enter_button').click (function (event) {
+                                console.info ('modal_room_enter_button clicked 1');
                                 $('#modal_room_enter_form').submit ();
+                                $('#modal_room').toggle ();
                             });
                         } else {
                             $('#room_enter').html ('<button id="room_enter_button" type="button" class="btn btn-primary">Enter</button>');
@@ -177,11 +181,11 @@ function initButtonRoomRefresh () {
 }
 
 function initButtonRoomEnter () {
-    if( $("#room_enter_modal").length ) {
-        // Modal defined, user NOT signed in
-    } else {
-        // Modal NOT defined, user signed in
-    }
+    //if( $("#room_enter_modal").length ) {
+    //    // Modal defined, user NOT signed in
+    //} else {
+    //    // Modal NOT defined, user signed in
+    //}
 }
 
 function initButtonRoomClose () {

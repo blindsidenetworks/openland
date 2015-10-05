@@ -9,22 +9,26 @@ class BbbController < ApplicationController
     room_id = params[:id].to_i
     begin
       room = Room.find(room_id)
-      bbb_meeting_join_url = bbb_get_meeting_join_url room, params[:anonymous_name], params[:anonymous_password]
-      if bbb_meeting_join_url[:returncode]
-        #Execute the redirect
-        logger.info "#Execute the redirect"
-        redirect_to bbb_meeting_join_url[:join_url]
+      if (user_signed_in?) || params[:anonymous_password] == room[:moderator_password] || params[:anonymous_password] == room[:viewer_password]
+        bbb_meeting_join_url = bbb_get_meeting_join_url room, params[:anonymous_name], params[:anonymous_password]
+        if bbb_meeting_join_url[:returncode]
+          #Execute the redirect
+          logger.info "#Execute the redirect"
+          redirect_to bbb_meeting_join_url[:join_url]
+        else
+          @error = { :key => bbb_meeting_join_url[:messageKey], :message => bbb_meeting_join_url[:message] }
+        end
       else
-        error = { :key => bbb_meeting_join_url[:messageKey], :message => bbb_meeting_join_url[:message] }
+        @error = { :key => 'InvalidAccess', :message => "User can not enter this room" }
       end
 
     rescue ActiveRecord::RecordNotFound => exc
-      error = { :key => 'RoomNotFound', :message => exc.message }
+      @error = { :key => 'RoomNotFound', :message => exc.message }
     end
 
-    if error != nil
-      logger.info error.inspect
-      render 'close'
+    if @error != nil
+      logger.info @error.inspect
+      render 'error'
     end
   end
 
