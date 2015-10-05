@@ -21,7 +21,7 @@ module BbbHelper
     response_data
   end
 
-  def bbb_get_meeting_join_url(room)
+  def bbb_get_meeting_join_url(room, anonymous_name, anonymous_password)
     response_data = nil
 
     if (can? :read, room)
@@ -50,15 +50,22 @@ module BbbHelper
           if current_user != nil
             if (can? :manage, room)
               password = bbb_meeting_info[:moderatorPW]
-              #user_name = 'Moderator'
             else
               password = bbb_meeting_info[:attendeePW]
-              #user_name = 'Viewer'
             end
             user_name = (current_user.fullname == '')? current_user.username: current_user.fullname
           else
             password = bbb_meeting_info[:attendeePW]
-            user_name = 'Viewer'
+            if !anonymous_name || anonymous_name == ''
+              if (can? :manage, room)
+                user_name = 'Moderator'
+              else
+                user_name = 'Viewer'
+              end
+            else
+              user_name = anonymous_name
+            end
+            password = anonymous_password
           end
 
           join_url = bbb.join_meeting_url(meeting_id, user_name, password)

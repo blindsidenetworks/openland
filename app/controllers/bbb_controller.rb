@@ -5,13 +5,11 @@ class BbbController < ApplicationController
 
   def enter
     error = nil
-    logger.info "**********************************************"
-    logger.info params.inspect
 
     room_id = params[:id].to_i
     begin
       room = Room.find(room_id)
-      bbb_meeting_join_url = bbb_get_meeting_join_url room
+      bbb_meeting_join_url = bbb_get_meeting_join_url room, params[:anonymous_name], params[:anonymous_password]
       if bbb_meeting_join_url[:returncode]
         #Execute the redirect
         logger.info "#Execute the redirect"
