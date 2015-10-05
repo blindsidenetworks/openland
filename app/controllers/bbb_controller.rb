@@ -1,6 +1,3 @@
-require 'bigbluebutton_api'
-require 'digest/sha1'
-
 class BbbController < ApplicationController
   include ApplicationHelper
   include BbbHelper
