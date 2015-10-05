@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.1'
 
 # Use mysql as the database for Active Record
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.18'
 
 # Alternatively use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -65,6 +65,7 @@ gem 'bootstrap-social-rails', '~> 4.8.0'
 gem 'font-awesome-rails'
 gem 'jquery-datatables-rails'
 gem 'jquery-ui-rails'
+gem 'formvalidation-rails', '~> 0.6.3'
 
 gem 'omniauth'
 gem 'omniauth-digitalocean'

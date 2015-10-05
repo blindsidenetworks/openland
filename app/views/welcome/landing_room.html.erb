@@ -110,5 +110,42 @@ $(document).ready(function($) {
     $('#recordings').dataTable ({
         sPaginationType : "full_numbers"
     });
+<% if !user_signed_in? %>
+    $('#modal_room_enter_form').formValidation({
+        framework: 'bootstrap',
+        icon: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        row: {
+            valid: 'field-success',
+            invalid: 'field-error'
+        },
+        fields: {
+            anonynous_name: {
+                validators: {
+                    notEmpty: {
+                        message: 'The name is required'
+                    }
+                }
+            },
+            anonynous_password: {
+                validators: {
+                    notEmpty: {
+                        message: 'The password is required'
+                    }
+                }
+            },
+        }
+    }).on('click', 'button[data-toggle]', function() {
+        var $target = $($(this).attr('data-toggle'));
+        $target.toggle();
+        if (!$target.is(':visible')) {
+            // Enable the submit buttons in case additional fields are not valid
+            $('#modal_room_enter_form').data('formValidation').disableSubmitButtons(false);
+        }
+    });
+<% end %>
 });
 </script>
