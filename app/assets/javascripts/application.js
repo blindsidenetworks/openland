@@ -15,4 +15,6 @@
 //= require dataTables/jquery.dataTables
 //= require turbolinks
 //= require bootstrap-sprockets
+//= require formvalidation.min
+//= require formvalidation/framework/bootstrap.min
 //= require_tree ./common
