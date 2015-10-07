@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :users
   end
   get 'users/me'
+  get 'users/me/edit', to: 'users#me_edit'
 
   get 'welcome/index'
   get 'about', to: 'welcome#about'

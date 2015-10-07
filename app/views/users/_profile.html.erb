@@ -1,7 +1,11 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header"><%= @user.fullname %></h1>
-                <%= link_to '', users_me_path(), id: "profile_edit", :name => "profile_edit", :title => 'Edit', class: "btn btn-default glyphicon glyphicon-edit pull-right" %>
+                <% if current_user == @user %>
+                <%= link_to '', users_me_edit_path(), id: "profile_edit", :name => "profile_edit", :title => 'Edit', class: "btn btn-default glyphicon glyphicon-edit pull-right" %>
+                <% else %>
+                <%= link_to '', edit_user_path(@user), id: "profile_edit", :name => "profile_edit", :title => 'Edit', class: "btn btn-default glyphicon glyphicon-edit pull-right" %>
+                <% end %>
                 <div class="col-sm-6 col-md-3">
                 <% if @user.picture_file_name.nil? %>
                   <div style="width:150px;height:150px;" class="thumbnail">
