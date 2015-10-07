@@ -52,8 +52,12 @@
         <% @recordings.each do |recording| %>
           <tr>
             <td>
+            <% if recording[:playback][:format].kind_of?(Array) %>
             <% recording[:playback][:format].each do |playback| %>
-              <a href="<%= playback[:url] %>" target="_new"><%= playback[:type] %></a>
+              <%= link_to playback[:type], playback[:url], id: "recording_"+playback[:type], :name => "recording_"+playback[:type], :title => "Playback "+playback[:type], class: "", :target => "_blank" %>
+            <% end %>
+            <% else %>
+              <%= link_to recording[:playback][:format][:type], recording[:playback][:format][:url], id: "recording_"+recording[:playback][:format][:type], :name => "recording_"+recording[:playback][:format][:type], :title => "Playback "+recording[:playback][:format][:type], class: "", :target => "_blank" %>
             <% end %>
             </td>
             <td><%= recording[:name] %></td>
