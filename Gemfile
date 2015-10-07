@@ -66,6 +66,7 @@ gem 'font-awesome-rails'
 gem 'jquery-datatables-rails'
 gem 'jquery-ui-rails'
 gem 'formvalidation-rails', '~> 0.6.3'
+gem 'paperclip', '~> 4.3.1'
 
 gem 'omniauth'
 gem 'omniauth-digitalocean'

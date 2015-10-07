@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   include UsersHelper
+  # For devise
   before_filter :authenticate_user!
+  # For role_model
   load_and_authorize_resource
 
   def index
@@ -60,7 +62,7 @@ class UsersController < ApplicationController
 
   private
     def user_params
-        params.require(:user).permit(:username, :email, :first_name, :last_name, :password)
+        params.require(:user).permit(:username, :email, :first_name, :last_name, :password, :picture)
     end
 
 end

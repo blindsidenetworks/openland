@@ -2,6 +2,15 @@ require 'role_model'
 
 class User < ActiveRecord::Base
   has_many :rooms
+  has_attached_file :picture, :styles => { :small => "150x150", :icon => "60x60"},
+                    :url  => "/assets/users/:id/:style/:basename.:extension",
+                    :path => ":rails_root/public/assets/users/:id/:style/:basename.:extension"
+  #For paperclip
+  #do_not_validate_attachment_file_type :picture
+  validates_attachment_presence :picture
+  validates_attachment_size :picture, :less_than => 5.megabytes
+  validates_attachment_content_type :picture, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

@@ -1,6 +1,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header"><%= @user.fullname %></h1>
+                <%= link_to '', users_me_path(), id: "profile_edit", :name => "profile_edit", :title => 'Edit', class: "btn btn-default glyphicon glyphicon-edit pull-right" %>
+                <%= image_tag @user.picture.url(:small) %>
                 <h3>
                   <b>Username:</b> <%= @user.username %><br>
                   <b>Email:</b> <%= @user.email %><br>
