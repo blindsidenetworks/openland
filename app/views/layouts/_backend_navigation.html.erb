@@ -14,13 +14,18 @@
       <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            <i class="fa fa-user fa-fw"></i>
+            <i class="fa fa-caret-down"></i>
           </a>
           <ul class="dropdown-menu dropdown-user">
             <li>
               &nbsp;&nbsp;
               <span class="clear">
-                <i class="fa fa-user fa-2x"></i>&nbsp;
+                <% if current_user.picture_file_name.nil? %>
+                <i class="fa fa-user fa-2x"></i>
+                <% else %>
+                <%= image_tag current_user.picture.url(:icon) %>
+                <% end %>
                 <strong class="font-bold"><%= current_user.to_s %></strong>
               </span>
             </li>

@@ -2,7 +2,15 @@
             <div class="col-lg-12">
                 <h1 class="page-header"><%= @user.fullname %></h1>
                 <%= link_to '', users_me_path(), id: "profile_edit", :name => "profile_edit", :title => 'Edit', class: "btn btn-default glyphicon glyphicon-edit pull-right" %>
-                <%= image_tag @user.picture.url(:small) %>
+                <div class="col-sm-6 col-md-3">
+                <% if @user.picture_file_name.nil? %>
+                  <div style="width:150px;height:150px;" class="thumbnail">
+                    <i class="fa fa-user fa-picture"></i>
+                  </div>
+                <% else %>
+                  <%= image_tag @user.picture.url(:small) %>
+                <% end %>
+                </div>
                 <h3>
                   <b>Username:</b> <%= @user.username %><br>
                   <b>Email:</b> <%= @user.email %><br>

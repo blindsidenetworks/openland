@@ -2,7 +2,7 @@ require 'role_model'
 
 class User < ActiveRecord::Base
   has_many :rooms
-  has_attached_file :picture, :styles => { :small => "150x150", :icon => "60x60"},
+  has_attached_file :picture, :styles => { :small => "150x150", :icon => "32x32"},
                     :url  => "/assets/users/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/assets/users/:id/:style/:basename.:extension"
   #For paperclip
