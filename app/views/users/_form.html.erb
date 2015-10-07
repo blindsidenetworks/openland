@@ -52,6 +52,13 @@
 
     <div class="form-group input-group col-lg-4 field">
       <%= f.label :picture %><br />
+      <% if @user.picture_file_name.nil? %>
+        <div style="width:150px;height:150px;" class="thumbnail">
+          <i class="fa fa-user fa-picture"></i>
+        </div>
+      <% else %>
+        <%= image_tag @user.picture.url(:small) %><br /><br />
+      <% end %>
       <%= f.file_field :picture %>
     </div>
 
