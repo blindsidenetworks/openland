@@ -50,6 +50,7 @@
         </thead>
         <tbody>
         <% @recordings.each do |recording| %>
+          <% if recording[:published] %>
           <tr>
             <td>
             <% if recording[:playback][:format].kind_of?(Array) %>
@@ -65,6 +66,7 @@
             <td><%= recording[:startTime].in_time_zone %></td>
             <td><%= to_duration(recording[:endTime].to_i - recording[:startTime].to_i).to_s %></td>
           </tr>
+          <% end %>
         <% end %>
         </tbody>
       </table>

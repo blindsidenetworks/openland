@@ -222,8 +222,6 @@ function getRecordingActionMethod (action) {
     var method;
     if (action == 'delete') {
         method = 'DELETE';
-    } else if (action == 'unpublish') {
-        method = 'PATCH';
     } else {
         method = 'PATCH';
     }
@@ -278,6 +276,12 @@ function initRecordingActions () {
                         $('#'+button_id).removeClass (button_glyphicon);
                         button_glyphicon = getRecordingActionGlyphIcon (inverse_action);
                         $('#'+button_id).addClass (button_glyphicon);
+                        // Show or hide the links to the recordings
+                        if( recording_action == 'publish' ) {
+                            $('#recording_playback_'+recording_id).removeClass ('hide');
+                        } else {
+                            $('#recording_playback_'+recording_id).addClass ('hide');
+                        }
                     },
                     error : function(xhr, status, error) {
                     },

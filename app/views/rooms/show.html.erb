@@ -48,21 +48,15 @@
         <% @recordings.each do |recording| %>
           <tr id="recording_<%= recording[:recordID] %>">
             <td>
+            <div id="recording_playback_<%= recording[:recordID] %>" class="<% if !recording[:published] %>hide<% end %>">
             <% if recording[:playback][:format].kind_of?(Array) %>
             <% recording[:playback][:format].each do |playback| %>
-              <% if recording[:published] %>
               <%= link_to playback[:type], playback[:url], id: "recording_"+playback[:type], :name => "recording_"+playback[:type], :title => "Playback "+playback[:type], class: "", :target => "_blank" %>
-              <% else %>
-              <%= playback[:type] %>
-              <% end %>
             <% end %>
             <% else %>
-              <% if recording[:published] %>
               <%= link_to recording[:playback][:format][:type], recording[:playback][:format][:url], id: "recording_"+recording[:playback][:format][:type], :name => "recording_"+recording[:playback][:format][:type], :title => "Playback "+recording[:playback][:format][:type], class: "", :target => "_blank" %>
-              <% else %>
-              <%= recording[:playback][:format][:type] %>
-              <% end %>
             <% end %>
+            </div>
             </td>
             <td><%= recording[:name] %></td>
             <td><%= recording[:metadata][:description]? recording[:metadata][:description]: 'none' %></td>
