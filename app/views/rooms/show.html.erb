@@ -46,14 +46,22 @@
         </thead>
         <tbody>
         <% @recordings.each do |recording| %>
-          <tr>
+          <tr id="recording_<%= recording[:recordID] %>">
             <td>
             <% if recording[:playback][:format].kind_of?(Array) %>
             <% recording[:playback][:format].each do |playback| %>
+              <% if recording[:published] %>
               <%= link_to playback[:type], playback[:url], id: "recording_"+playback[:type], :name => "recording_"+playback[:type], :title => "Playback "+playback[:type], class: "", :target => "_blank" %>
+              <% else %>
+              <%= playback[:type] %>
+              <% end %>
             <% end %>
             <% else %>
+              <% if recording[:published] %>
               <%= link_to recording[:playback][:format][:type], recording[:playback][:format][:url], id: "recording_"+recording[:playback][:format][:type], :name => "recording_"+recording[:playback][:format][:type], :title => "Playback "+recording[:playback][:format][:type], class: "", :target => "_blank" %>
+              <% else %>
+              <%= recording[:playback][:format][:type] %>
+              <% end %>
             <% end %>
             </td>
             <td><%= recording[:name] %></td>
@@ -62,7 +70,8 @@
             <td><%= to_duration(recording[:endTime].to_i - recording[:startTime].to_i).to_s %></td>
             <% if can? :manage_recording, @room %>
             <td>
-              <span id="recording_delete_<%= recording[:recordID] %>" data-url="<%= bbb_recording_delete_path(recording[:recordID]) %>">Actions</span>
+              <span class="recording_action" data-id="<%= recording[:recordID] %>" data-action="<%= recording_status_change(recording) %>" data-url="<%= bbb_recording_publish_path(@room[:id]) %>"></span>
+              <span class="recording_action" data-id="<%= recording[:recordID] %>" data-action="delete" data-url="<%= bbb_recording_delete_path(@room[:id]) %>"></span>
             </td>
             <% end %>
           </tr>
@@ -78,6 +87,7 @@ $(document).ready(function($) {
     initButtonRoomRefresh ();
     initButtonRoomEnter ();
     initButtonRoomClose ();
+    initRecordingActions ();
     refreshRoom ();
     <% if @recordings.any? %>
     $('#recordings').dataTable ({

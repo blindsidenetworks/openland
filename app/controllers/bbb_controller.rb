@@ -128,19 +128,47 @@ class BbbController < ApplicationController
     meeting_id = params[:id].to_i
   end
 
-  #get    'bbb/recording/:id', to: 'bbb#recording_info'
-  def recording_info
-    recording_id = params[:id].to_i
-  end
-
-  #update 'bbb/recording/:id', to: 'bbb#recording_publish'
+  #patch  'bbb/recording/:room_id', to: 'bbb#recording_publish'
   def recording_publish
-    recording_id = params[:id].to_i
+    logger.info "###################################################"
+    logger.info params.inspect
+
+    action_data = nil
+    error_data = nil
+
+    room_id = params[:room_id].to_i
+    begin
+      room = Room.find(room_id)
+
+      if (can? :manage, room)
+        bbb ||= BigBlueButton::BigBlueButtonApi.new(bbb_endpoint + "api", bbb_secret, "0.8", true)
+        if !bbb
+          error_data = { :key => "BBBAPICallInvalid", :message => "BBB API call invalid." }
+        else
+          # Execute publishRecordings request
+          begin
+            action_data = bbb.publish_recordings(params[:id], (params[:status]=='publish'))
+          rescue BigBlueButton::BigBlueButtonException => exc
+            error_data = { :key => 'BBB'+exc.key.capitalize, :message => exc.message }
+          end
+
+        end
+      end
+
+    rescue ActiveRecord::RecordNotFound => exc
+      error_data = { :key => 'RoomNotFound', :message => exc.message }
+    end
+
+    status = { :action => action_data, :error => error_data}
+    render :text => status.to_json(:indent => 2), :content_type => "application/json"
   end
 
-  #delete 'bbb/recording/:id', to: 'bbb#recording_delete'
+  #delete 'bbb/recording/:room_id', to: 'bbb#recording_delete'
   def recording_delete
-    recording_id = params[:id].to_i
+    action_data = nil
+    error_data = nil
+
+    room_id = params[:room_id].to_i
   end
 
 end

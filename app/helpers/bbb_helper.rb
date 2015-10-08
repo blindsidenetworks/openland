@@ -101,4 +101,25 @@ module BbbHelper
 
     response_data
   end
+
+  def recording_is_published(recording)
+    recording[:published]
+  end
+
+  def recording_status(recording)
+    if recording_is_published(recording)
+      'published'
+    else
+      'unpublished'
+    end
+  end
+
+  def recording_status_change(recording)
+    if recording_is_published(recording)
+      'unpublish'
+    else
+      'publish'
+    end
+  end
+
 end
