@@ -225,7 +225,7 @@ function getRecordingActionGlyphIcon (action) {
     return glyphicon;
 }
 
-function executeDeleteRecording (button, recording) {
+function executeDeleteRecording (current, recording) {
     if(confirm("Recordings deleted can not be recovered. Are you sure?")) {
         console.info ('Executing action '+recording.action);
         $.ajax({
@@ -235,6 +235,8 @@ function executeDeleteRecording (button, recording) {
             type : getRecordingActionMethod (recording.action),
             success : function(data) {
                 console.info ('Action '+recording.action+' executed');
+                //Delete the row
+                $('#recording_'+recording.id).remove ();
             },
             error : function(xhr, status, error) {
             },
