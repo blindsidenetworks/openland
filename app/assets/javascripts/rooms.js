@@ -237,6 +237,13 @@ function executeDeleteRecording (current, recording) {
                 console.info ('Action '+recording.action+' executed');
                 //Delete the row
                 $('#recording_'+recording.id).remove ();
+                // If is the last row, delete the table as well
+                if( $('#recordings tr').length == 1 ) {
+                    var data_table = $('#recordings').DataTable ();
+                    data_table.destroy ();
+                    $('#recordings').remove ();
+                    $('#div_recordings').remove ();
+                }
             },
             error : function(xhr, status, error) {
             },
