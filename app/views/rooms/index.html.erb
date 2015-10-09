@@ -10,9 +10,10 @@
                 <table id="rooms" class="table">
                   <thead>
                     <tr>
-                      <th>#</th>
                       <% if @user.has_role? :admin %>
                       <th>Owner</th>
+                      <% else %>
+                      <th></th>
                       <% end %>
                       <th>Room Name</th>
                       <th>Description</th>
@@ -24,12 +25,11 @@
                   <tbody>
                   <% @rooms.each do |room| %>
                     <tr>
-                      <td></td>
-                      <% if @user.has_role? :admin %>
                       <td>
+                      <% if @user.has_role? :admin %>
                         <%= link_to room.owner.to_s, "/"+room.owner.username, :title => 'Show landing page' %>
-                      </td>
                       <% end %>
+                      </td>
                       <td><%= room.name %></td>
                       <td><%= room.description %></td>
                       <td><%= room.moderator_password %></td>
@@ -37,7 +37,7 @@
                       <td>
                         <%= link_to '', room_path(room), :title => 'View', class: "btn btn-default glyphicon glyphicon-file" %>
                         <%= link_to '', edit_room_path(room), :title => 'Edit', class: "btn btn-default glyphicon glyphicon-edit" %>
-                        <%= link_to '', '#', :title => 'Hide', class: "btn btn-default glyphicon glyphicon-eye-open" %>
+                        <% #link_to '', '#', :title => 'Hide', class: "btn btn-default glyphicon glyphicon-eye-open" %>
                         <%= link_to '', room_path(room), :method => :delete, :title => 'Delete', :class => "btn btn-default glyphicon glyphicon-remove", :data => { confirm: 'Are you sure?' } %>
                       </td>
                     </tr>
@@ -56,7 +56,15 @@
 <script>
 $(document).ready(function($) {
     $('#rooms').dataTable ({
-        sPaginationType : "full_numbers"
+        sPaginationType : "full_numbers",
+        "columns": [
+            null,
+            null,
+            null,
+            null,
+            null,
+           { "width": "114px" }
+        ]
     });
 });
 </script>

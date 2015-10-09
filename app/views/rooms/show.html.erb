@@ -41,6 +41,8 @@
             <th>Duration</th>
             <% if can? :manage_recording, @room %>
             <th>Actions</th>
+            <% else %>
+            <th></th>
             <% end %>
           </tr>
         </thead>
@@ -67,6 +69,8 @@
               <span class="recording_action" data-id="<%= recording[:recordID] %>" data-action="<%= recording_status_change(recording) %>" data-url="<%= bbb_recording_publish_path(@room[:id]) %>"></span>
               <span class="recording_action" data-id="<%= recording[:recordID] %>" data-action="delete" data-url="<%= bbb_recording_delete_path(@room[:id]) %>"></span>
             </td>
+            <% else %>
+            <td></td>
             <% end %>
           </tr>
         <% end %>
@@ -85,7 +89,15 @@ $(document).ready(function($) {
     refreshRoom ();
     <% if @recordings.any? %>
     $('#recordings').dataTable ({
-        sPaginationType : "full_numbers"
+        sPaginationType : "full_numbers",
+        "columns": [
+            null,
+            null,
+            null,
+            null,
+            null,
+           { "width": "76px" }
+        ]
     });
     <% end %>
 });
