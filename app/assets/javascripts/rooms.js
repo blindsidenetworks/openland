@@ -181,11 +181,11 @@ function initButtonRoomRefresh () {
 }
 
 function initButtonRoomEnter () {
-    //if( $("#room_enter_modal").length ) {
-    //    // Modal defined, user NOT signed in
-    //} else {
-    //    // Modal NOT defined, user signed in
-    //}
+    if( $("#room_enter_modal").length ) {
+        // Modal defined, user NOT signed in
+    } else {
+        // Modal NOT defined, user signed in
+    }
 }
 
 function initButtonRoomClose () {
@@ -240,55 +240,93 @@ function getRecordingActionGlyphIcon (action) {
     return glyphicon;
 }
 
+function executeDeleteRecording (button, recording) {
+    if(confirm("Recordings deleted can not be recovered. Are you sure?")) {
+        console.info ('Executing action '+recording.action);
+        $.ajax({
+            url : recording.action_url+"?id="+recording.id+"&status="+recording.action,
+            dataType : "json",
+            async : true,
+            type : getRecordingActionMethod (recording.action),
+            success : function(data) {
+                console.info ('Action '+recording.action+' executed');
+            },
+            error : function(xhr, status, error) {
+            },
+            complete : function(xhr, status) {
+            }
+        });
+    }
+}
+
+function executePublishRecording (current, recording) {
+    console.info ('Executing action '+recording.action);
+    $.ajax({
+        url : recording.action_url+"?id="+recording.id+"&status="+recording.action,
+        dataType : "json",
+        async : true,
+        type : getRecordingActionMethod (recording.action),
+        success : function(data) {
+            console.info ('Action '+recording.action+' executed');
+            var inverse_action = (recording.action == 'publish'? 'unpublish': 'publish');
+            //Update action
+            current.data ('action', inverse_action);
+            //Update the text
+            var button_text = getRecordingActionButtonText (inverse_action);
+            current.prop ('title', button_text);
+            current.prop ('name', button_text);
+            //Update the icon
+            var button_glyphicon = getRecordingActionGlyphIcon (recording.action);
+            current.removeClass (button_glyphicon);
+            button_glyphicon = getRecordingActionGlyphIcon (inverse_action);
+            current.addClass (button_glyphicon);
+            // Show or hide the links to the recordings
+            if( recording.action == 'publish' ) {
+                $('#recording_playback_'+recording.id).removeClass ('hide');
+            } else {
+                $('#recording_playback_'+recording.id).addClass ('hide');
+            }
+        },
+        error : function(xhr, status, error) {
+        },
+        complete : function(xhr, status) {
+        }
+    });
+}
+
 function initRecordingActions () {
     $('.recording_action').each(function(i, obj) {
-        var action = $(this).data ('action');
-        var button_id = getRecordingActionButtonId (action, $(this).data ('id'));
-        var button_text = getRecordingActionButtonText (action);
-        var button_glyphicon = getRecordingActionGlyphIcon (action);
-        $(this).html ('<button type="button" id="'+button_id+'" title="'+button_text+'" name="'+button_text+'" class="btn btn-default glyphicon '+button_glyphicon+' pull-left" data-id="'+$(this).data ('id')+'" data-action="'+action+'" data-url="'+$(this).data ('url')+'"></button>');
+        var button = {};
+        button.action = $(this).data ('action');
+        button.id = getRecordingActionButtonId (button.action, $(this).data ('id'));
+        button.text = getRecordingActionButtonText (button.action);
+        button.glyphicon = getRecordingActionGlyphIcon (button.action);
 
-        if ( action == 'delete' ) {
-            $('#'+button_id).click (function (event) {
-                console.info ($(this));
+        if ( button.action == 'delete' ) {
+            $(this).html ('<button type="button" id="recording_action_delete_'+button.id+'" title="'+button.text+'" name="'+button.text+'" class="btn btn-default glyphicon '+button.glyphicon+' pull-left" data-id="'+$(this).data ('id')+'" data-action="'+button.action+'" data-url="'+$(this).data ('url')+'"></button>');
+
+            $('#recording_action_delete_'+button.id).click (function (event) {
+                var recording = {};
+                recording.id = $(this).data ('id');
+                recording.action = $(this).data ('action');
+                recording.action_url = $(this).data ('url');
+
+                var current = $(this);
+
+                executeDeleteRecording (current, recording);
             });
         } else {
-            $('#'+button_id).click (function (event) {
-                var recording_id = $(this).data ('id');
-                var recording_action = $(this).data ('action');
-                var recording_action_url = $(this).data ('url');
+            $(this).html ('<button type="button" id="recording_action_publish_'+button.id+'" title="'+button.text+'" name="'+button.text+'" class="btn btn-default glyphicon '+button.glyphicon+' pull-left" data-id="'+$(this).data ('id')+'" data-action="'+button.action+'" data-url="'+$(this).data ('url')+'"></button>');
 
-                $.ajax({
-                    url : recording_action_url+"?id="+recording_id+"&status="+recording_action,
-                    dataType : "json",
-                    async : true,
-                    type : getRecordingActionMethod (recording_action),
-                    success : function(data) {
-                        var inverse_action = (recording_action == 'publish'? 'unpublish': 'publish');
-                        //Update action
-                        $('#'+button_id).data ('action', inverse_action);
-                        //Update the text
-                        var button_text = getRecordingActionButtonText (inverse_action);
-                        $('#'+button_id).prop ('title', button_text);;
-                        $('#'+button_id).prop ('name', button_text);;
-                        //Update the icon
-                        var button_glyphicon = getRecordingActionGlyphIcon (recording_action);
-                        $('#'+button_id).removeClass (button_glyphicon);
-                        button_glyphicon = getRecordingActionGlyphIcon (inverse_action);
-                        $('#'+button_id).addClass (button_glyphicon);
-                        // Show or hide the links to the recordings
-                        if( recording_action == 'publish' ) {
-                            $('#recording_playback_'+recording_id).removeClass ('hide');
-                        } else {
-                            $('#recording_playback_'+recording_id).addClass ('hide');
-                        }
-                    },
-                    error : function(xhr, status, error) {
-                    },
-                    complete : function(xhr, status) {
-                    }
-                });
+            $('#recording_action_publish_'+button.id).click (function (event) {
+                var recording = {};
+                recording.id = $(this).data ('id');
+                recording.action = $(this).data ('action');
+                recording.action_url = $(this).data ('url');
 
+                var current = $(this);
+
+                executePublishRecording (current, recording);
             });
         }
     });

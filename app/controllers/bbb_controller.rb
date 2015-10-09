@@ -130,9 +130,6 @@ class BbbController < ApplicationController
 
   #patch  'bbb/recording/:room_id', to: 'bbb#recording_publish'
   def recording_publish
-    logger.info "###################################################"
-    logger.info params.inspect
-
     action_data = nil
     error_data = nil
 
@@ -151,7 +148,6 @@ class BbbController < ApplicationController
           rescue BigBlueButton::BigBlueButtonException => exc
             error_data = { :key => 'BBB'+exc.key.capitalize, :message => exc.message }
           end
-
         end
       end
 
@@ -169,6 +165,29 @@ class BbbController < ApplicationController
     error_data = nil
 
     room_id = params[:room_id].to_i
+    begin
+      room = Room.find(room_id)
+
+      if (can? :manage, room)
+        bbb ||= BigBlueButton::BigBlueButtonApi.new(bbb_endpoint + "api", bbb_secret, "0.8", true)
+        if !bbb
+          error_data = { :key => "BBBAPICallInvalid", :message => "BBB API call invalid." }
+        else
+          # Execute deleteRecordings request
+          begin
+            action_data = bbb.delete_recordings(params[:id])
+          rescue BigBlueButton::BigBlueButtonException => exc
+            error_data = { :key => 'BBB'+exc.key.capitalize, :message => exc.message }
+          end
+        end
+      end
+
+    rescue ActiveRecord::RecordNotFound => exc
+      error_data = { :key => 'RoomNotFound', :message => exc.message }
+    end
+
+    status = { :action => action_data, :error => error_data}
+    render :text => status.to_json(:indent => 2), :content_type => "application/json"
   end
 
 end
