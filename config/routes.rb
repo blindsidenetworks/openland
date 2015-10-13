@@ -12,7 +12,6 @@ Rails.application.routes.draw do
   get 'welcome/landing'
 
   get "dashboard", to: 'dashboard#index'
-  get 'dashboard/index'
 
   resources :rooms
 
