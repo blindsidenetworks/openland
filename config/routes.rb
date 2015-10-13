@@ -14,8 +14,6 @@ Rails.application.routes.draw do
   get "dashboard", to: 'dashboard#index'
   get 'dashboard/index'
 
-  get 'settings/index'
-
   resources :rooms
 
   get    'bbb/enter/:id', to: 'bbb#enter', as: :bbb_room_enter
