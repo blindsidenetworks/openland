@@ -1,7 +1,6 @@
 module UsersHelper
   def role_name(role_key)
     role_key.capitalize
-    #t('users.'+role_key)
   end
 
   def roles

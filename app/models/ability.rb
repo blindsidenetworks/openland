@@ -6,12 +6,12 @@ class Ability
     #anyone can read and use
     can :read, Room
     can :use, Room
-    if user.id != nil
-      can :use, Room
-      #can [:update, :destroy], User, :id => user.id
-    end
     if user.has_role? :admin
       can :manage, :all
+    else
+      can :manage, User do |u|
+        u.id == user.id
+      end
     end
     if user.has_role? :manager
       can :manage, Room
@@ -20,9 +20,6 @@ class Ability
       can [:create], Room
       can [:manage], Room do |r|
         r.user_id == user.id
-      end
-      can :manage, User do |u|
-        u.id == user.id
       end
     end
   end

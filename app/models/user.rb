@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_attached_file :picture, :styles => { :small => "150x150", :icon => "32x32"},
                     :url  => "/assets/users/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/assets/users/:id/:style/:basename.:extension"
-  #For paperclip
+  ## For paperclip
   #do_not_validate_attachment_file_type :picture
   validates_attachment_presence :picture
   validates_attachment_size :picture, :less_than => 5.megabytes
@@ -17,8 +17,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  # Roles implemented using role_model
-
+  ## Roles implemented using role_model
   # 0000 0001 =  1 = [:admin]
   # 0000 0010 =  2 = [:manager]
   # 0000 0100 =  4 = [:member]
