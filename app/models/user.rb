@@ -57,17 +57,18 @@ class User < ActiveRecord::Base
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
-    if login = conditions.delete(:login)
-      where(conditions.to_hash).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+    _login = conditions.delete(:login)
+    if _login
+      where(conditions.to_hash).where(["lower(username) = :value OR lower(email) = :value", { :value => _login.downcase }]).first
     else
       where(conditions.to_hash).first
     end
   end
 
   def fullname
-    fullname = (self.first_name != nil && self.first_name.strip != '')? self.first_name: ''
-    fullname += (self.last_name != nil && self.last_name.strip != '')? ((fullname != '')? ' ': '')+self.last_name: ''
-    fullname
+    _fullname = (self.first_name != nil && self.first_name.strip != '')? self.first_name: ''
+    _fullname += (self.last_name != nil && self.last_name.strip != '')? ((_fullname != '')? ' ': '')+self.last_name: ''
+    _fullname
   end
 
   def to_s
