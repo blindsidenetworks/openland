@@ -19,11 +19,11 @@ ActiveRecord::Schema.define(version: 20151007151051) do
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.integer  "user_id",            limit: 4
-    t.boolean  "recording",          limit: 1
+    t.boolean  "recording"
     t.string   "welcome",            limit: 255
     t.string   "moderator_password", limit: 255
     t.string   "viewer_password",    limit: 255
-    t.boolean  "wait_moderator",     limit: 1
+    t.boolean  "wait_moderator"
     t.string   "permissions",        limit: 255
   end
 
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20151007151051) do
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
     t.string   "username",               limit: 255
-    t.integer  "roles_mask",             limit: 4,   default: 4
+    t.integer  "roles_mask",             limit: 4
     t.string   "first_name",             limit: 255
     t.string   "last_name",              limit: 255
     t.string   "picture_file_name",      limit: 255
