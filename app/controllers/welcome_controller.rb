@@ -52,6 +52,16 @@ class WelcomeController < ApplicationController
         end
         #If the user is found then look for the room
         @rooms = Room.where(:user_id => @user.id)
+        @recordingsArray = []
+        @roomsIdArray = []
+        @rooms.each do |room|
+          bbb_recordings = bbb_get_recordings room
+          if bbb_recordings && bbb_recordings[:returncode] && bbb_recordings[:recordings].any?
+            @recordings = bbb_recordings[:recordings]
+            @recordingsArray.push(@recordings)
+            @roomsIdArray.push(room.id)
+          end
+        end
       rescue
         logger.info "Landing page not found"
         #if the user is not found then show an error
