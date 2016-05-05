@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
                     :path => ":rails_root/public/assets/users/:id/:style/:basename.:extension"
   ## For paperclip
   #do_not_validate_attachment_file_type :picture
-  validates_attachment_presence :picture
+  #validates_attachment_presence :picture
   validates_attachment_size :picture, :less_than => 5.megabytes
   validates_attachment_content_type :picture, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
