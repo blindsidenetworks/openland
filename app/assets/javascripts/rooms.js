@@ -216,7 +216,7 @@ function getRecordingActionMethod (action) {
 function getRecordingActionGlyphIcon (action) {
     var glyphicon;
     if (action == 'delete') {
-        glyphicon = 'glyphicon-remove';
+        glyphicon = 'glyphicon-trash';
     } else if (action == 'unpublish') {
         glyphicon = 'glyphicon-eye-open';
     } else {
