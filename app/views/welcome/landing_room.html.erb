@@ -52,19 +52,25 @@
         <% @recordings.each do |recording| %>
           <% if recording[:published] %>
           <tr>
-            <td>
+            <td style="vertical-align: middle !important;">
             <% if recording[:playback][:format].kind_of?(Array) %>
             <% recording[:playback][:format].each do |playback| %>
-              <%= link_to playback[:type], playback[:url], id: "recording_"+playback[:type], :name => "recording_"+playback[:type], :title => "Playback "+playback[:type], class: "", :target => "_blank" %>
+              <%= link_to playback[:url], id: "recording_"+playback[:type], :name => "recording_"+playback[:type], :title => "Playback "+playback[:type], :target => "_blank", class: "btn btn-default bt-sm" do %>
+                  <i class="fa fa-play-circle-o icon-large" aria-hidden="true"></i>
+                  <span style="font-size:small;" class="text-capitalize"><%= playback[:type] %></span>
+              <% end %>
             <% end %>
             <% else %>
-              <%= link_to recording[:playback][:format][:type], recording[:playback][:format][:url], id: "recording_"+recording[:playback][:format][:type], :name => "recording_"+recording[:playback][:format][:type], :title => "Playback "+recording[:playback][:format][:type], class: "", :target => "_blank" %>
+              <%= link_to recording[:playback][:format][:url], id: "recording_"+recording[:playback][:format][:type], :name => "recording_"+recording[:playback][:format][:type], :title => "Playback "+recording[:playback][:format][:type], :target => "_blank", class: "btn btn-default bt-sm" do %>
+                  <i class="fa fa-play-circle-o icon-large" aria-hidden="true"></i>
+                  <span style="font-size:small;" class="text-capitalize"><%= recording[:playback][:format][:type] %></span>
+              <% end %>
             <% end %>
             </td>
-            <td><%= recording[:name] %></td>
-            <td><%= recording[:metadata][:description]? recording[:metadata][:description]: 'none' %></td>
-            <td><%= recording[:startTime].in_time_zone %></td>
-            <td><%= to_duration(recording[:endTime].to_i - recording[:startTime].to_i).to_s %></td>
+            <td style="vertical-align: middle !important;"><%= recording[:name] %></td>
+            <td style="vertical-align: middle !important;"><%= recording[:metadata][:description]? recording[:metadata][:description]: 'none' %></td>
+            <td style="vertical-align: middle !important;"><%= recording[:startTime].in_time_zone %></td>
+            <td style="vertical-align: middle !important;"><%= to_duration(recording[:endTime].to_i - recording[:startTime].to_i).to_s %></td>
           </tr>
           <% end %>
         <% end %>
