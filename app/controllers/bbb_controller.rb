@@ -175,7 +175,7 @@ class BbbController < ApplicationController
         else
           # Execute deleteRecordings request
           begin
-            #action_data = bbb.delete_recordings(params[:id])
+            action_data = bbb.delete_recordings(params[:id])
           rescue BigBlueButton::BigBlueButtonException => exc
             error_data = { :key => 'BBB'+exc.key.capitalize, :message => exc.message }
           end

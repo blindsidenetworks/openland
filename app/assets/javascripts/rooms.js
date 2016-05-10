@@ -1,3 +1,6 @@
+var pollings = [];
+var runningPollIndex = -1;
+var pollIsRunning = false;
 
 function status_attendees_in (moderators, participants) {
     var msg_attendees_in = '';
@@ -225,6 +228,15 @@ function getRecordingActionGlyphIcon (action) {
     return glyphicon;
 }
 
+function intervalDeleteConditions (currentIdx, recording) {
+    if (runningPollIndex != -1 && pollIsRunning && runningPollIndex != currentIdx) {
+        return;
+    }
+    runningPollIndex = currentIdx;
+    pollIsRunning = true;
+    deleted_recording (recording)
+}
+
 function executeDeleteRecording (current, recording) {
     if(confirm("Recordings deleted can not be recovered. Are you sure?")) {
         console.info ('Executing action '+recording.action);
@@ -233,8 +245,51 @@ function executeDeleteRecording (current, recording) {
             dataType : "json",
             async : true,
             type : getRecordingActionMethod (recording.action),
-            success : function(data) {
-                console.info ('Action '+recording.action+' executed');
+            success : function(data, status, xhr) {
+                console.info ('Action ' + recording.action + ' executed');
+                current.addClass ('hidden');
+                img = $('#processing_delete_recording_' + current.data ('id'));
+                img.removeClass ('hidden');
+                var currentIndex = pollings.length;
+                pollings.push(setInterval(intervalDeleteConditions(currentIndex, recording), 1000));
+            },
+            error : function(xhr, status, error) {
+                console.debug ("error delete_recording");
+                console.debug (error);
+            }
+        });
+    }
+}
+
+function deleted_recording ( recording ) {
+    console.debug ("polling " + recording.id);
+    btn = $('#delete_recording_' + recording.id);
+    url = recording.action_url+"?id="+recording.id+"&status="+recording.action
+    $.ajax ( {
+        url: url,
+        dataType : "json",
+        type : getRecordingActionMethod (recording.action),
+        success: function (data, status, xhr) {
+            // It hasn't been deleted
+        },
+        error : function (xhr, status, error) {
+            // It is deleted
+            console.debug ("error, if not found then the recording was deleted, if something else, oh well");
+            console.debug (error);
+        },
+        statusCode: {
+            200: function (response) {
+                // Stop polling (if there is any)
+                console.log(pollings[runningPollIndex]);
+                clearInterval(pollings[runningPollIndex]);
+                pollIsRunning = false;
+                runningPollIndex = -1;
+                // Change UI
+                /// hide image for processing
+                img = $('#processing_delete_recording_' + btn.data ('id'));
+                img.addClass ('hidden');
+                /// update and show button for action
+                btn.removeClass ('hidden');
                 //Delete the row
                 $('#recording_'+recording.id).remove ();
                 // If is the last row, delete the table as well
@@ -245,12 +300,21 @@ function executeDeleteRecording (current, recording) {
                     $('#div_recordings').remove ();
                 }
             },
-            error : function(xhr, status, error) {
+            404: function() {
+                console.debug ("code 401, not found then the recording was deleted");
+                // Todo: when the response status will be fixed, this is where the code will go
             },
-            complete : function(xhr, status) {
-            }
-        });
+        },
+    });
+}
+
+function intervalPublishConditions (currentIdx, current, recording) {
+    if (runningPollIndex != -1 && pollIsRunning && runningPollIndex != currentIdx) {
+        return;
     }
+    runningPollIndex = currentIdx;
+    pollIsRunning = true;
+    published_recording (current, recording)
 }
 
 function executePublishRecording (current, recording) {
@@ -260,30 +324,69 @@ function executePublishRecording (current, recording) {
         dataType : "json",
         async : true,
         type : getRecordingActionMethod (recording.action),
-        success : function(data) {
+        success : function(data, status, xhr) {
+            current.addClass('hidden');
+            img = $('#processing_publish_recording_' + current.data ('id'));
+            img.removeClass ('hidden');
+            var currentIndex = pollings.length;
+            pollings.push(setInterval(intervalPublishConditions(currentIndex, current, recording), 1000));
             console.info ('Action '+recording.action+' executed');
-            var inverse_action = (recording.action == 'publish'? 'unpublish': 'publish');
-            //Update action
-            current.data ('action', inverse_action);
-            //Update the text
-            var button_text = getRecordingActionButtonText (inverse_action);
-            current.prop ('title', button_text);
-            current.prop ('name', button_text);
-            //Update the icon
-            var button_glyphicon = getRecordingActionGlyphIcon (recording.action);
-            current.removeClass (button_glyphicon);
-            button_glyphicon = getRecordingActionGlyphIcon (inverse_action);
-            current.addClass (button_glyphicon);
-            // Show or hide the links to the recordings
-            if( recording.action == 'publish' ) {
-                $('#recording_playback_'+recording.id).removeClass ('hide');
-            } else {
-                $('#recording_playback_'+recording.id).addClass ('hide');
-            }
         },
         error : function(xhr, status, error) {
+            console.debug ("error publish_recording");
+            console.debug (error);
         },
         complete : function(xhr, status) {
+        }
+    });
+}
+
+function resetPolling () {
+    pollIsRunning = false; runningPollIndex = -1;
+}
+
+function published_recording ( btn, recording) {
+    url = recording.action_url+"?id="+recording.id+"&status="+recording.action;
+    $.ajax ( {
+        url: url,
+        async : true,
+        type : getRecordingActionMethod (recording.action),
+        dataType : "json",
+        success: function (data, status, xhr) {
+            var inverse_action = (recording.action == 'publish'? 'unpublish': 'publish');
+            var publish = (recording.action == 'publish')? 'true':'false';
+
+            if ( data.action.published == publish) {
+                // Stop polling (if there is any)
+                clearInterval(pollings[runningPollIndex]);
+                resetPolling();
+                // Change UI
+                /// hide image for processing
+                img = $('#processing_publish_recording_' + btn.data ('id'));
+                img.addClass ('hidden');
+                //Update action
+                btn.data ('action', inverse_action);
+                //Update the text
+                var button_text = getRecordingActionButtonText (inverse_action);
+                btn.prop ('title', button_text);
+                btn.prop ('name', button_text);
+                //Update the icon
+                var button_glyphicon = getRecordingActionGlyphIcon (recording.action);
+                btn.removeClass (button_glyphicon);
+                button_glyphicon = getRecordingActionGlyphIcon (inverse_action);
+                btn.addClass (button_glyphicon);
+                btn.removeClass ('hidden');
+                // Show or hide the links to the recordings
+                if( recording.action == 'publish' ) {
+                    $('#recording_playback_'+recording.id).removeClass ('hide');
+                } else {
+                    $('#recording_playback_'+recording.id).addClass ('hide');
+                }
+            }
+        },
+        error : function (xhr, status, error) {
+            console.debug ("error published_recording");
+            console.debug (error);
         }
     });
 }

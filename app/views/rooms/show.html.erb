@@ -72,7 +72,9 @@
             <td style="vertical-align: middle !important;"><%= to_duration(recording[:endTime].to_i - recording[:startTime].to_i).to_s %></td>
             <% if can? :manage_recording, @room %>
             <td style="vertical-align: middle !important;">
+              <%= image_tag image_path('processing16.gif'), :id => "processing_publish_recording_" + recording[:recordID].to_s, :title => "Processing", :alt => "Processing", :class => "hidden", :style => "float:left;margin:10px;margin-bottom:8px;margin-right:14px" %>
               <span class="recording_action" data-id="<%= recording[:recordID] %>" data-action="<%= recording_status_change(recording) %>" data-url="<%= bbb_recording_publish_path(@room[:id]) %>"></span>
+              <%= image_tag image_path('processing16.gif'), :id => "processing_delete_recording_" + recording[:recordID].to_s, :title => "Processing", :alt => "Processing", :class => "hidden", :style => "float:left;margin:10px;margin-bottom:8px" %>
               <span class="recording_action" data-id="<%= recording[:recordID] %>" data-action="delete" data-url="<%= bbb_recording_delete_path(@room[:id]) %>"></span>
             </td>
             <% else %>
@@ -88,6 +90,7 @@
 
 <script>
 $(document).ready(function($) {
+
     initButtonRoomRefresh ();
     initButtonRoomEnter ();
     initButtonRoomClose ();
