@@ -38,7 +38,7 @@
                         <%= link_to '', room_path(room), :title => 'View', class: "btn btn-default glyphicon glyphicon-file" %>
                         <%= link_to '', edit_room_path(room), :title => 'Edit', class: "btn btn-default glyphicon glyphicon-edit" %>
                         <% #link_to '', '#', :title => 'Hide', class: "btn btn-default glyphicon glyphicon-eye-open" %>
-                        <%= link_to '', room_path(room), :method => :delete, :title => 'Delete', :class => "btn btn-default glyphicon glyphicon-remove", :data => { confirm: 'Are you sure?' } %>
+                        <%= link_to '', room_path(room), :method => :delete, :title => 'Delete', :class => "btn btn-default glyphicon glyphicon-trash", :data => { confirm: 'Are you sure?' } %>
                       </td>
                     </tr>
                   <% end %>
