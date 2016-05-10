@@ -1,0 +1,14 @@
+development:
+  bbb_endpoint: 'http://test-install.blindsidenetworks.com/bigbluebutton/'
+  bbb_secret: '8cd8ef52e8e101574e400365b55e11a6'
+  registration_open: true
+
+test:
+  bbb_endpoint: 'http://test-install.blindsidenetworks.com/bigbluebutton/'
+  bbb_secret: '8cd8ef52e8e101574e400365b55e11a6'
+  registration_open: false
+
+production:
+  bbb_endpoint: 'http://test-install.blindsidenetworks.com/bigbluebutton/'
+  bbb_secret: '8cd8ef52e8e101574e400365b55e11a6'
+  registration_open: false
