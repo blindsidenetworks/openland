@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get 'about', to: 'welcome#about'
   get 'contact', to: 'welcome#contact'
   get 'welcome/landing'
+  get 'welcome/landing_traditional'
+  get 'welcome/open_room'
 
   get "dashboard", to: 'dashboard#index'
 
@@ -28,6 +30,7 @@ Rails.application.routes.draw do
   get    'bbb/close'
 
   get ':landing_id', to: 'welcome#landing'
+  get ':landing_id/traditional', to: 'welcome#landing_traditional'
   get ':landing_id/:room_id', to: 'welcome#landing'
 
   root 'welcome#index'
