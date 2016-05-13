@@ -4,7 +4,7 @@
             <td align=center><%= image_tag image_path('logo.png'), :class => "", :style => 'border:#fff solid 1px;' %></td>
         </tr>
         <tr>
-            <td><p>&nbsp;&nbsp;Blindside Networks Web Conference Server</p></td>
+            <td><p>&nbsp;&nbsp;<%= @user.fullname %> Web Conference Server</p></td>
         </tr>
     </table>
 </div>
@@ -45,7 +45,27 @@
                     <td><% if !user_signed_in? %><%= text_field_tag 'password' %>&nbsp;&nbsp;<%end%>
                     <%= submit_tag "join", name: "join" %></td>
                 </tr>
-            <% end %> 
+            <% end %>
         </tbody>
     </table>
+
+    <h2 style=" padding-left:8px; padding-top:5px;"> How-To Videos: </h2>
+    <br/>
+
+    <table>
+        <tr>
+            <td valign="top"  class="tutorials"><a title="Viewer" href="http://www.youtube.com/watch?v=LS2lttmPi6A" target=_blank><%= image_tag image_path('upload_slides.png'), :class => "", :style => 'border:#fff solid 1px;', :width =>"92", :height => "90" %></a></td>
+            <td valign="top" class="tutorials"><a title="Moderator/Presenter" href="http://www.youtube.com/watch?v=PHTZvbL1NT4" target=_blank><%= image_tag image_path('join.png'), :class => "", :style => 'border:#fff solid 1px;', :width =>"92", :height => "90" %></a></td>
+        </tr>
+        <tr>
+            <td valign="top" class="tutorials" align=center><p class="small">Viewer</p></td>
+            <td valign="top" class="tutorials" align=center><p class="small">Moderator/Presenter</p></td>
+        </tr>
+    </table>
+    <br/>
+    <hr/>
+    <small>
+        <p>This conference server was built using <a href="http://bigbluebutton.org">BigBlueButton</a>, an open source web conferencing platform for on-line learning.</p>
+        <br/>
+    </small>
 </div>
