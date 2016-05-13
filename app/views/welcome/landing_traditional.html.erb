@@ -1,0 +1,51 @@
+<div id="logo">
+    <table>
+        <tr>
+            <td align=center><%= image_tag image_path('logo.png'), :class => "", :style => 'border:#fff solid 1px;' %></td>
+        </tr>
+        <tr>
+            <td><p>&nbsp;&nbsp;Blindside Networks Web Conference Server</p></td>
+        </tr>
+    </table>
+</div>
+<div id="content">
+    <br />
+    <br />
+    <table cellpadding="5" cellspacing="5" style="width: 600px;">
+        <tbody>
+            <%= form_tag({ controller: 'welcome', action: 'open_room' }, method: 'get', id: 'form_enter') do %>
+                <% if !user_signed_in? %>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td style="text-align: right;">Full&nbsp;Name:</td>
+                    <td>&nbsp;</td>
+                    <td style="text-align: left"><%= text_field_tag 'username' %></td>
+                </tr>
+                <% end %>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td style="text-align: right;">Room:</td>
+                    <td>&nbsp;</td>
+                    <td style="text-align: left">
+                        <%= select_tag 'room_id', options_from_collection_for_select(@rooms, :id, :name) %>
+                    </td>
+                </tr>
+                <% if flash[:error] %>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td>&nbsp;</td>
+                        <td><span class="error"><%= flash[:error] %></span>
+                    </tr>
+                <% end %>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td style="text-align: right;"><% if !user_signed_in? %>Password:<% end %></td>
+                    <td>&nbsp;</td>
+                    <td><% if !user_signed_in? %><%= text_field_tag 'password' %>&nbsp;&nbsp;<%end%>
+                    <%= submit_tag "join", name: "join" %></td>
+                </tr>
+            <% end %> 
+        </tbody>
+    </table>
+</div>
