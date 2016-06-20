@@ -39,7 +39,7 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  config.action_mailer.default_url_options = { host: '192.168.23.6', port: 3000 }
+  config.action_mailer.default_url_options = { host: ENV['MAILER_URL'], port: ENV['MAILER_PORT'] }
 
   Paperclip.options[:command_path] = "/usr/local/bin/"
 end
