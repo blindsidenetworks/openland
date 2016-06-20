@@ -61,7 +61,7 @@ gem 'role_model'
 gem 'bigbluebutton-api-ruby'
 
 gem 'bootstrap-sass', '3.3.0.0'
-gem 'bootstrap-social-rails', '~> 4.8.0'
+gem 'bootstrap-social-rails', '~> 4.12'
 gem 'font-awesome-rails'
 gem 'jquery-ui-rails'
 gem 'jquery-datatables-rails'

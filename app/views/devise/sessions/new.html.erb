@@ -8,6 +8,7 @@
           <div class="panel-body">
             <%= devise_error_messages! %>
 
+          <% if is_signin_enabled? %>
             <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
               <fieldset>
                 <div class="form-group fields">
@@ -32,20 +33,22 @@
                 </div>
               </fieldset>
             <% end %>
-
             <p class="text-muted text-center">
             <%= link_to('<small>'.html_safe + 'Forgot password?' + '</small>'.html_safe, new_user_password_path)  %>
             </p>
-            <% if is_registration_open? %>
+
+            <% if is_signup_enabled? %>
             <p class="text-muted text-center"><medium>Do not have an account?</medium></p>
             <%= link_to('Sign up', new_user_registration_path, { :class => "btn btn-default btn-block" })  %>
             <% end %>
+          <% end %>
+
             <br>
             <%- if devise_mapping.omniauthable? %>
               <%- resource_class.omniauth_providers.each do |provider| %>
-                <%= link_to user_omniauth_authorize_path(provider), class: 'btn btn-block btn-md btn-social btn-'+provider.to_s do %>
-                  <i class="fa <%= 'fa-'+provider.to_s %>"></i>
-                  Sign in with <%= provider.capitalize %>
+                <%= link_to user_omniauth_authorize_path(provider), class: 'btn btn-block btn-md btn-social btn-'+provider_key(provider) do %>
+                  <i class="fa fa-<%= provider_key(provider) %>"></i>
+                  Sign in with <%= provider_key(provider).capitalize %>
                 <% end %>
               <% end -%>
             <% end -%>

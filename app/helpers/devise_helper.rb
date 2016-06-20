@@ -12,4 +12,12 @@ module DeviseHelper
 
     html.html_safe
   end
+
+  def provider_key(provider)
+    if provider == :google_oauth2
+      'google'
+    else
+      provider.to_s
+    end
+  end
 end

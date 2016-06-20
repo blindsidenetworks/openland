@@ -44,7 +44,7 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.3.0.0)
       sass (~> 3.2)
-    bootstrap-social-rails (4.8.0)
+    bootstrap-social-rails (4.12.0)
       railties (>= 3.1)
     builder (3.2.2)
     byebug (9.0.5)
@@ -234,7 +234,7 @@ PLATFORMS
 DEPENDENCIES
   bigbluebutton-api-ruby
   bootstrap-sass (= 3.3.0.0)
-  bootstrap-social-rails (~> 4.8.0)
+  bootstrap-social-rails (~> 4.12)
   byebug
   cancan
   coffee-rails (~> 4.1.0)

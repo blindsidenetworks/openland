@@ -26,6 +26,30 @@ module ApplicationHelper
     end
   end
 
+  def is_signin_enabled?
+    if (ENV.has_key? 'OPENLAND_SIGNIN_ENABLED')
+      ENV['OPENLAND_SIGNIN_ENABLED'].downcase == 'true'
+    else
+      false
+    end
+  end
+
+  def is_signup_enabled?
+    if (ENV.has_key? 'OPENLAND_SIGNUP_ENABLED')
+      ENV['OPENLAND_SIGNUP_ENABLED'].downcase == 'true'
+    else
+      false
+    end
+  end
+
+  def landing_style
+    if (ENV.has_key? 'OPENLAND_LANDING_STYLE')
+      ENV['OPENLAND_LANDING_STYLE'].downcase
+    else
+      'classic'
+    end
+  end
+
   def bbb_endpoint
     if (defined? APP_CONFIG).to_s == 'constant' && (APP_CONFIG.has_key? 'bbb_endpoint')
       APP_CONFIG['bbb_endpoint']
