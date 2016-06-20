@@ -41,6 +41,14 @@
             <%= link_to('Sign up', new_user_registration_path, { :class => "btn btn-default btn-block" })  %>
             <% end %>
             <br>
+            <%- if devise_mapping.omniauthable? %>
+              <%- resource_class.omniauth_providers.each do |provider| %>
+                <%= link_to user_omniauth_authorize_path(provider), class: 'btn btn-block btn-md btn-social btn-'+provider.to_s do %>
+                  <i class="fa <%= 'fa-'+provider.to_s %>"></i>
+                  Sign in with <%= provider.capitalize %>
+                <% end %>
+              <% end -%>
+            <% end -%>
           </div>
         </div>
       </div>
