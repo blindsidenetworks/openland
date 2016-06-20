@@ -1,11 +1,8 @@
 source 'https://rubygems.org'
-
+#ruby '2.2.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.3'
-
-# Use mysql as the database for Active Record
-gem 'mysql2', '~> 0.3.18'
+gem 'rails', '4.2.4'
 
 # Alternatively use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -58,7 +55,7 @@ gem 'devise'
 gem 'cancan'
 gem 'role_model'
 
-gem 'bigbluebutton-api-ruby', '1.4.0'
+gem 'bigbluebutton-api-ruby'
 
 gem 'bootstrap-sass', '3.3.0.0'
 gem 'bootstrap-social-rails', '~> 4.8.0'
@@ -70,5 +67,7 @@ gem 'formvalidation-rails', '~> 0.6.3'
 gem 'paperclip', '~> 4.3.1'
 
 gem 'omniauth'
-gem 'omniauth-digitalocean'
-gem 'omniauth-twitter'
+gem 'omniauth-digitalocean', '~> 0.2.1'
+gem 'omniauth-twitter', '~> 1.2', '>= 1.2.1'
+gem 'omniauth-facebook', '~> 3.0'
+gem 'omniauth-google-oauth2', '~> 0.4.1'
