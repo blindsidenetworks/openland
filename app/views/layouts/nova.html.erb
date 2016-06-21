@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<%= render 'layouts/head' %>
+
+  <!-- Specific for the module javascript files -->
+  <%= javascript_include_tag 'rooms', 'data-turbolinks-track' => true %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>

@@ -7,14 +7,10 @@ Rails.application.routes.draw do
   get 'users/me'
   get 'users/me/edit', to: 'users#me_edit'
 
-  get 'welcome/index'
   get 'about', to: 'welcome#about'
   get 'contact', to: 'welcome#contact'
-  get 'welcome/landing'
-  get 'welcome/landing_traditional'
-  get 'welcome/open_room'
-
   get "dashboard", to: 'dashboard#index'
+  get "room", to: 'welcome#room'
 
   resources :rooms
 
@@ -31,8 +27,7 @@ Rails.application.routes.draw do
   get    'bbb/close'
 
   get ':landing_id', to: 'welcome#landing'
-  get ':landing_id/traditional', to: 'welcome#landing_traditional'
-  get ':landing_id/:room_id', to: 'welcome#landing'
+  get ':landing_id/:room_id', to: 'welcome#room'
 
   root 'welcome#index'
 end

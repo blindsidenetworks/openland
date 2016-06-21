@@ -1,0 +1,54 @@
+<%= render 'navigation' %>
+<br><br><br><br>
+<%= render 'layouts/messages' %>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Introduction Row -->
+        <div class="row">
+            <div class="col-lg-12 col-md-3">
+                <% if @user.picture_file_name.nil? %>
+                <div style="width:150px;height:150px;" class="thumbnail">
+                    <i class="fa fa-user fa-picture"></i>
+                </div>
+                <% else %>
+                <%= image_tag @user.picture.url(:small), :class => "img-circle img-responsive img-center" %>
+                <% end %>
+            </div>
+
+            <div class="col-lg-12">
+                <h1 class="page-header"><%= @user.fullname %>'s rooms<br>
+                    <small>It's Nice to Meet You!</small><br><br>
+                </h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint, explicabo dolores ipsam aliquam inventore corrupti eveniet quisquam quod totam laudantium repudiandae obcaecati ea consectetur debitis velit facere nisi expedita vel?</p>
+            </div>
+        </div>
+
+        <!-- Rooms Row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">Available rooms</h2>
+            </div>
+            <% @rooms.each do |room| %>
+            <div class="col-lg-4 col-sm-6 text-center">
+                <% if can? :read, room %>
+                <%= link_to image_tag("http://placehold.it/200x200", :border => 0, :class => "img-circle img-responsive img-center"), '/landing/'+room.id.to_s %>
+                <h3><%= link_to room.name, '/landing/'+room.id.to_s %><br>
+                <% else %>
+                <img src="http://placehold.it/200x200" class="img-circle img-responsive img-center" alt="Show" >
+                <h3><%= room.name %><br>
+                <% end %>
+                    <small>Job Title</small>
+                </h3>
+                <p><%= (room.description.length > 96)? room.description[0,96]+'...': room.description %></p>
+            </div>
+            <% end %>
+
+        </div>
+    </div>
+    <hr>
+<script>
+$(document).ready(function($) {
+});
+</script>

@@ -1,55 +1,163 @@
 <%= render 'navigation' %>
 
-  <br><br><br><br>
-<%= render 'layouts/messages' %>
+  <header class="intro-header">
+    <div class="container">&nbsp;</div>
+  </header>
 
-    <!-- Page Content -->
-    <div class="container">
+  <div class="panel-body">
 
-        <!-- Introduction Row -->
-        <div class="row">
-            <div class="col-lg-12 col-md-3">
-                <% if @user.picture_file_name.nil? %>
-                <div style="width:150px;height:150px;" class="thumbnail">
-                    <i class="fa fa-user fa-picture"></i>
-                </div>
-                <% else %>
-                <%= image_tag @user.picture.url(:small), :class => "img-circle img-responsive img-center" %>
-                <% end %>
-            </div>
-
-            <div class="col-lg-12">
-                <h1 class="page-header"><%= @user.fullname %>'s rooms<br>
-                    <small>It's Nice to Meet You!</small><br><br>
-                </h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint, explicabo dolores ipsam aliquam inventore corrupti eveniet quisquam quod totam laudantium repudiandae obcaecati ea consectetur debitis velit facere nisi expedita vel?</p>
-            </div>
-        </div>
-
-        <!-- Rooms Row -->
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="page-header">Available rooms</h2>
-            </div>
-            <% @rooms.each do |room| %>
-            <div class="col-lg-4 col-sm-6 text-center">
-                <% if can? :read, room %>
-                <%= link_to image_tag("http://placehold.it/200x200", :border => 0, :class => "img-circle img-responsive img-center"), '/landing/'+room.id.to_s %>
-                <h3><%= link_to room.name, '/landing/'+room.id.to_s %><br>
-                <% else %>
-                <img src="http://placehold.it/200x200" class="img-circle img-responsive img-center" alt="Show" >
-                <h3><%= room.name %><br>
-                <% end %>
-                    <small>Job Title</small>
-                </h3>
-                <p><%= (room.description.length > 96)? room.description[0,96]+'...': room.description %></p>
-            </div>
-            <% end %>
-
-        </div>
+  <% if @room != nil %>
+    <% if cannot? :read, @room %>
+    <div class="alert alert-info alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>Heads up!</strong> You need to sign in for using this room.
     </div>
-    <hr>
+    <% else %>
+    <div id="room" data-url="<%= bbb_room_status_path(@room) %>" >
+      <div id="room_top_bar">
+        <%= link_to '', '#', id: "room_refresh", :name => "room_refresh", :title => 'Refresh', class: "btn btn-default glyphicon glyphicon-refresh pull-left" %>
+      </div><br>
+      <div id="room_info">
+        <h1><%= @room[:name] %></h1>
+        <h3><%= @room[:description] %></h3>
+      </div><br>
+      <div id="room_status">
+        <div id="room_status_general" class="alert alert-info" role="alert"></div>
+        <div id="room_status_current"></div>
+      </div><br>
+      <div id="room_actionbar">
+      <% if can? :use, @room %>
+        <span id="room_enter" data-url="<%= bbb_room_enter_path(@room) %>"></span>
+      <% end %>
+      <% if can? :close, @room %>
+        <span id="room_close" data-url="<%= bbb_room_close_path(@room) %>"></span>
+      <% end %>
+      </div><br>
+    </div>
+    <% end %>
+    <% if @recordings.any? %>
+    <div>
+      <h3>Recordings</h3><br>
+      <table id="recordings" class="table">
+        <thead>
+          <tr>
+            <th>Recording</th>
+            <th>Activity</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @recordings.each do |recording| %>
+          <% if recording[:published] %>
+          <tr>
+            <td style="vertical-align: middle !important;">
+            <% if recording[:playback][:format].kind_of?(Array) %>
+            <% recording[:playback][:format].each do |playback| %>
+              <%= link_to playback[:url], id: "recording_"+playback[:type], :name => "recording_"+playback[:type], :title => "Playback "+playback[:type], :target => "_blank", class: "btn btn-default bt-sm" do %>
+                  <i class="fa fa-play-circle-o icon-large" aria-hidden="true"></i>
+                  <span style="font-size:small;" class="text-capitalize"><%= playback[:type] %></span>
+              <% end %>
+            <% end %>
+            <% else %>
+              <%= link_to recording[:playback][:format][:url], id: "recording_"+recording[:playback][:format][:type], :name => "recording_"+recording[:playback][:format][:type], :title => "Playback "+recording[:playback][:format][:type], :target => "_blank", class: "btn btn-default bt-sm" do %>
+                  <i class="fa fa-play-circle-o icon-large" aria-hidden="true"></i>
+                  <span style="font-size:small;" class="text-capitalize"><%= recording[:playback][:format][:type] %></span>
+              <% end %>
+            <% end %>
+            </td>
+            <td style="vertical-align: middle !important;"><%= recording[:name] %></td>
+            <td style="vertical-align: middle !important;"><%= recording[:metadata][:description]? recording[:metadata][:description]: 'none' %></td>
+            <td style="vertical-align: middle !important;"><%= recording[:startTime].in_time_zone %></td>
+            <td style="vertical-align: middle !important;"><%= to_duration(recording[:endTime].to_i - recording[:startTime].to_i).to_s %></td>
+          </tr>
+          <% end %>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+    <% end %>
+    <% if !user_signed_in? %>
+    <% #Add html code for the floating joining form (where the user inputs a user name and password) %>
+    <!-- Modal -->
+    <div class="modal fade" id="modal_room" tabindex="-1" role="dialog" aria-labelledby="modal_room">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Enter form</h4>
+          </div>
+          <form id="modal_room_enter_form" name="modal_room_enter_form" method="post" target="_blank" action="<%= bbb_room_enter_path(@room) %>">
+          <div class="modal-body">
+            Type your name and a valid password to enter the session<br><br>
+            <div class="form-group">
+              <label for="anonymous_name" class="control-label">Name:</label>
+              <input type="text" class="form-control" id="anonymous_name" name="anonymous_name">
+            </div>
+            <div class="form-group">
+              <label for="anonynous_password" class="control-label">Password:</label>
+              <input type="password" class="form-control" id="anonynous_password" name="anonymous_password" required="required">
+            </div>
+            <div class="modal-footer">
+              <span id="modal_room_enter" data-url="<%= bbb_room_enter_path(@room) %>"></span>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  <% end %>
+
+  </div>
+
 <script>
 $(document).ready(function($) {
+    initButtonRoomRefresh ();
+    initButtonRoomEnter ();
+    initButtonRoomClose ();
+    refreshRoom ();
+    $('#recordings').dataTable ({
+        sPaginationType : "full_numbers"
+    });
+<% if !user_signed_in? %>
+    $('#modal_room_enter_form').formValidation({
+        framework: 'bootstrap',
+        icon: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        row: {
+            valid: 'field-success',
+            invalid: 'field-error'
+        },
+        fields: {
+            anonynous_name: {
+                validators: {
+                    notEmpty: {
+                        message: 'The name is required'
+                    }
+                }
+            },
+            anonynous_password: {
+                validators: {
+                    notEmpty: {
+                        message: 'The password is required'
+                    }
+                }
+            },
+        }
+    }).on('click', 'button[data-toggle]', function() {
+        var $target = $($(this).attr('data-toggle'));
+        $target.toggle();
+        if (!$target.is(':visible')) {
+            // Enable the submit buttons in case additional fields are not valid
+            $('#modal_room_enter_form').data('formValidation').disableSubmitButtons(false);
+        }
+    });
+<% end %>
 });
 </script>
